@@ -2061,7 +2061,30 @@ p{
   }
 }
 
-
+.contactButtons  div{
+  /* border : 1px solid rgba(105, 105, 104, 2.0);
+  border-style: inset; */
+  
+  /* background-color: red; */
+  border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: x-large;
+    
+}
+.greyDiv{
+  color: rgba(105, 105, 104, 2.0);
+  padding: 10px;
+  
+  box-shadow: rgba(105, 105, 104, 2.0) 1.95px 1.95px 2.6px;
+}
+.orangeDiv{
+  color: rgba(255,127,0,2.0);
+  padding: 10px;
+  
+  box-shadow: rgba(255,127,0,2.0) 1.95px 1.95px 2.6px;
+}
 @media (max-width: 370px){
   .contactButtons{
     display: flex;
