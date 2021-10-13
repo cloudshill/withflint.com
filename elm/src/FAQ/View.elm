@@ -264,7 +264,7 @@ desktopLayout =
         , row [ width fill, paddingXY 0 5 ]
             [ column [ width fill, Font.size 10 ]
                 [ text "© 2021 Flint, all rights reserved" ]
-            , column ( width fill  :: textStyles)
+            , column (width fill :: textStyles)
                 [ row [ spacingXY 30 0, alignRight, Font.bold ]
                     [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
                     , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
