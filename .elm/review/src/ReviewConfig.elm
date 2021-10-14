@@ -43,7 +43,7 @@ config =
     , NoMissingSubscriptionsCall.rule
     , NoRecursiveUpdate.rule
     , NoUselessSubscriptions.rule
-    -- , NoUnused.CustomTypeConstructors.rule []
+    , NoUnused.CustomTypeConstructors.rule []
     , NoUnused.CustomTypeConstructorArgs.rule
     , NoUnused.Dependencies.rule
     , NoUnused.Exports.rule
@@ -52,14 +52,14 @@ config =
     , NoUnused.Patterns.rule
     , NoUnused.Variables.rule
     , NoExposingEverything.rule
-    -- , NoImportingEverything.rule []
-    -- , NoMissingTypeAnnotation.rule
-    -- , NoMissingTypeAnnotationInLetIn.rule
+    , NoImportingEverything.rule []
+    , NoMissingTypeAnnotation.rule
+    , NoMissingTypeAnnotationInLetIn.rule
     , NoMissingTypeExpose.rule
     , NoDebug.Log.rule
     , NoDebug.TodoOrToString.rule
     , Documentation.ReadmeLinksPointToCurrentVersion.rule
-    --, NoUnoptimizedRecursion.rule (NoUnoptimizedRecursion.optOutWithComment "IGNORE TCO")
+    , NoUnoptimizedRecursion.rule (NoUnoptimizedRecursion.optOutWithComment "IGNORE TCO")
     , NoUnapprovedLicense.rule
         { allowed = [ "BSD-3-Clause", "MIT", "Apache-2.0" ]
         , forbidden = [ "GPL-3.0-only", "GPL-3.0-or-later" ]
