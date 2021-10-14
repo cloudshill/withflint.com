@@ -1,10 +1,38 @@
 module FAQ.View exposing (view)
 
-import Element exposing (..)
+import Element
+    exposing
+        ( DeviceClass(..)
+        , Element
+        , alignLeft
+        , alignRight
+        , centerX
+        , centerY
+        , column
+        , el
+        , fill
+        , height
+        , image
+        , link
+        , maximum
+        , minimum
+        , newTabLink
+        , padding
+        , paddingEach
+        , paddingXY
+        , paragraph
+        , px
+        , row
+        , shrink
+        , spacing
+        , spacingXY
+        , text
+        , width
+        )
 import Element.Border as Border
 import Element.Font as Font
-import FAQ.Types exposing (..)
-import Router.Routes exposing (..)
+import FAQ.Types exposing (Model, Msg)
+import Router.Routes exposing (Page(..), toPath)
 import Styles exposing (colors, heading, textStyles)
 
 
@@ -49,6 +77,7 @@ data =
 view : Model -> Element Msg
 view model =
     let
+        responsiveLayout : List (Element msg)
         responsiveLayout =
             case ( model.device.class, model.device.orientation ) of
                 ( Desktop, _ ) ->
@@ -66,6 +95,7 @@ view model =
     column [ height fill, width fill ] responsiveLayout
 
 
+phoneLayout : List (Element msg)
 phoneLayout =
     [ column
         [ width fill
@@ -91,7 +121,7 @@ phoneLayout =
                 (\( ques, answer ) ->
                     column
                         [ width fill
-                        , padding 30
+                        , paddingEach { top = 20, left = 30, right = 30, bottom = 30 }
                         , Border.color colors.white2
                         , Border.rounded 3
                         , Border.shadow
@@ -109,7 +139,7 @@ phoneLayout =
                 data
             )
         , row [ width fill, centerX, paddingXY 0 50 ]
-            [ column [ centerX, width fill, spacingXY 50 20, centerX, Font.bold, Font.size 15 ]
+            [ column ([ centerX, width fill, spacingXY 50 20, centerX, Font.size 15 ] ++ textStyles)
                 [ row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath Home, label = text "Home" } ]
                 , row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
                 , row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath Contact, label = text "Contact" } ]
@@ -129,6 +159,7 @@ phoneLayout =
     ]
 
 
+tabletLayout : List (Element msg)
 tabletLayout =
     [ column
         [ width fill
@@ -155,7 +186,7 @@ tabletLayout =
                         [ centerX
                         , width fill
                         , width (maximum 900 fill)
-                        , padding 30
+                        , paddingEach { top = 20, left = 30, right = 40, bottom = 30 }
                         , Border.color colors.white2
                         , Border.rounded 3
                         , Border.shadow
@@ -190,7 +221,7 @@ tabletLayout =
             [ column [ width fill, Font.size 10 ]
                 [ text "© 2021 Flint, all rights reserved" ]
             , column (width fill :: textStyles)
-                [ row [ spacingXY 30 0, alignRight, Font.bold ]
+                [ row [ spacingXY 30 0, alignRight ]
                     [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
                     , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
                     , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
@@ -202,14 +233,14 @@ tabletLayout =
     ]
 
 
-desktopLayout : List (Element Msg)
+desktopLayout : List (Element msg)
 desktopLayout =
     [ column
         [ width fill
         , paddingXY 100 0
         , centerX
         ]
-        [ row []
+        [ row [ width fill, centerX ]
             [ Element.link
                 [ width fill ]
                 { url = toPath Home
@@ -217,7 +248,7 @@ desktopLayout =
                 }
             ]
         , row [ width fill, height fill, paddingXY 0 100, spacing 10 ]
-            [ column [ width fill, width (minimum 600 shrink) ]
+            [ column [ width fill, width (minimum 600 shrink), width fill, centerX ]
                 [ paragraph
                     heading
                     [ text "FAQ" ]
@@ -229,7 +260,7 @@ desktopLayout =
                     (\( ques, answer ) ->
                         column
                             [ width fill
-                            , padding 30
+                            , paddingEach { top = 20, left = 30, right = 40, bottom = 30 }
                             , Border.color colors.white2
                             , Border.rounded 3
                             , Border.shadow
@@ -239,6 +270,8 @@ desktopLayout =
                                 , color = colors.gray3
                                 }
                             , spacingXY 0 20
+                            , width fill
+                            , centerX
                             ]
                             [ row (heading ++ [ Font.color colors.orange, Font.size 20 ]) [ text <| ques ]
                             , paragraph (paddingEach { left = 50, top = 0, bottom = 0, right = 0 } :: textStyles) [ text <| answer ]
@@ -247,29 +280,31 @@ desktopLayout =
                     data
                 )
             ]
-        , row
-            [ width fill
-            , paddingEach
-                { top = 50
-                , bottom = 2
-                , left = 0
-                , right = 0
-                }
-            ]
-            [ image [ width (px 80), height (px 50) ]
-                { src = "/images/logo.svg"
-                , description = "Flint"
-                }
-            ]
-        , row [ width fill, paddingXY 0 5 ]
-            [ column [ width fill, Font.size 10 ]
-                [ text "© 2021 Flint, all rights reserved" ]
-            , column (width fill :: textStyles)
-                [ row [ spacingXY 30 0, alignRight, Font.bold ]
-                    [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
-                    , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
-                    , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
-                    , row [] [ newTabLink [ padding 5 ] { url = "https://www.ycombinator.com/companies/flint", label = text "Careers" } ]
+        , column [ width fill, centerX ]
+            [ row
+                [ width fill
+                , paddingEach
+                    { top = 50
+                    , bottom = 2
+                    , left = 0
+                    , right = 0
+                    }
+                ]
+                [ image [ width (px 80), height (px 50) ]
+                    { src = "/images/logo.svg"
+                    , description = "Flint"
+                    }
+                ]
+            , row [ width fill, paddingXY 0 5 ]
+                [ column [ width fill, Font.size 10 ]
+                    [ text "© 2021 Flint, all rights reserved" ]
+                , column (width fill :: textStyles)
+                    [ row [ spacingXY 30 0, alignRight ]
+                        [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
+                        , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
+                        , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
+                        , row [] [ newTabLink [ padding 5 ] { url = "https://www.ycombinator.com/companies/flint", label = text "Careers" } ]
+                        ]
                     ]
                 ]
             ]

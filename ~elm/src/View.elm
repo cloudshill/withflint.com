@@ -1,12 +1,22 @@
 module View exposing (view)
 
 import Contact.View
-import Element exposing (..)
+import Element
+    exposing
+        ( Element
+        , centerX
+        , el
+        , fill
+        , maximum
+        , paddingXY
+        , text
+        , width
+        )
 import FAQ.View
 import Home.View
 import Html exposing (Html)
-import Router.Routes exposing (..)
-import Types exposing (..)
+import Router.Routes exposing (Page(..))
+import Types exposing (Model, Msg(..))
 
 
 view : Model -> { title : String, body : List (Html Types.Msg) }
@@ -14,7 +24,7 @@ view model =
     { title = "Flint — Competitive Prices without the hassle"
     , body =
         [ Element.layout [ width fill ] <|
-            el [ paddingXY 0 40, width fill ] (renderRoute model)
+            el [ paddingXY 0 40, width <| maximum 1500 fill, centerX ] (renderRoute model)
         ]
     }
 

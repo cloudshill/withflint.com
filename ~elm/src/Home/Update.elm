@@ -2,7 +2,7 @@ module Home.Update exposing (init, update)
 
 import Browser.Dom
 import Element exposing (Device, DeviceClass(..), Orientation(..))
-import Home.Types exposing (..)
+import Home.Types exposing (Model, Msg(..))
 import Return exposing (Return, return)
 import Task
 import Types
@@ -56,19 +56,16 @@ updateHome msg model =
                 }
                 Cmd.none
 
-        _ ->
-            return model Cmd.none
-
 
 classifyDevice : { window | height : Int, width : Int } -> Device
 classifyDevice window =
-    -- Tested in this ellie:
-    -- https://ellie-app.com/68QM7wLW8b9a1
     { class =
         let
+            longSide : Int
             longSide =
                 max window.width window.height
 
+            shortSide : Int
             shortSide =
                 min window.width window.height
         in

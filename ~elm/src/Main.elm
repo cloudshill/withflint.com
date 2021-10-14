@@ -6,7 +6,7 @@ import Contact.Types
 import FAQ.Types
 import Home.Types
 import Router.Types
-import Types exposing (..)
+import Types exposing (Msg(..))
 import Update exposing (init, update)
 import View exposing (view)
 

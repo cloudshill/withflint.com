@@ -6,7 +6,7 @@ import FAQ.Update
 import Home.Update
 import Return exposing (Return, andMap, mapCmd, singleton)
 import Router.Update
-import Types exposing (..)
+import Types exposing (Model, Msg(..))
 import Url exposing (Url)
 
 

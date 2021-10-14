@@ -2,7 +2,7 @@ module Router.Types exposing (Model, Msg(..))
 
 import Browser exposing (UrlRequest)
 import Browser.Navigation exposing (Key)
-import Router.Routes exposing (..)
+import Router.Routes exposing (Page)
 import Url exposing (Url)
 
 
@@ -15,4 +15,4 @@ type alias Model =
 type Msg
     = OnUrlChange Url
     | OnUrlRequest UrlRequest
-    | Go Page
+    | NoOp

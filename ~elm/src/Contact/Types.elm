@@ -1,4 +1,4 @@
-module FAQ.Types exposing (Model, Msg(..))
+module Contact.Types exposing (Model, Msg(..))
 
 import Browser.Dom exposing (Viewport)
 import Element exposing (Device)
@@ -13,4 +13,3 @@ type alias Model =
 type Msg
     = SetScreenSize Int Int
     | GotViewport Viewport
-    | NoOp

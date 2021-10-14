@@ -1,10 +1,12 @@
 module Router.Update exposing (init, update)
 
 import Browser exposing (UrlRequest(..))
+import Browser.Dom
 import Browser.Navigation exposing (Key, load, pushUrl)
 import Return exposing (Return, return)
-import Router.Routes exposing (..)
-import Router.Types exposing (..)
+import Router.Routes exposing (Page(..), routes)
+import Router.Types exposing (Model, Msg(..))
+import Task
 import Types
 import Url exposing (Url)
 import Url.Parser exposing (parse)
@@ -33,7 +35,8 @@ updateRouter : Msg -> Model -> Return Msg Model
 updateRouter msg model =
     case msg of
         OnUrlChange url ->
-            return { model | page = Maybe.withDefault NotFound <| parse routes url } Cmd.none
+            return { model | page = Maybe.withDefault NotFound <| parse routes url }
+                (Task.perform (\_ -> NoOp) (Browser.Dom.setViewport 0 0))
 
         OnUrlRequest urlRequest ->
             case urlRequest of
@@ -43,5 +46,5 @@ updateRouter msg model =
                 External url ->
                     ( model, load url )
 
-        Go page ->
-            return model (pushUrl model.key <| toPath page)
+        NoOp ->
+            return model Cmd.none

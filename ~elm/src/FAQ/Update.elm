@@ -1,8 +1,8 @@
-module Contact.Update exposing (init, update)
+module FAQ.Update exposing (init, update)
 
 import Browser.Dom
-import Contact.Types exposing (..)
 import Element exposing (Device, DeviceClass(..), Orientation(..))
+import FAQ.Types exposing (Model, Msg(..))
 import Return exposing (Return, return)
 import Task
 import Types
@@ -24,15 +24,15 @@ init =
 update : Types.Msg -> Model -> Return Msg Model
 update msgFor model =
     case msgFor of
-        Types.MsgForContact msg ->
-            updateContact msg model
+        Types.MsgForFAQ msg ->
+            updateFAQ msg model
 
         _ ->
             return model Cmd.none
 
 
-updateContact : Msg -> Model -> Return Msg Model
-updateContact msg model =
+updateFAQ : Msg -> Model -> Return Msg Model
+updateFAQ msg model =
     case msg of
         GotViewport viewport ->
             return
@@ -56,19 +56,16 @@ updateContact msg model =
                 }
                 Cmd.none
 
-        _ ->
-            return model Cmd.none
-
 
 classifyDevice : { window | height : Int, width : Int } -> Device
 classifyDevice window =
-    -- Tested in this ellie:
-    -- https://ellie-app.com/68QM7wLW8b9a1
     { class =
         let
+            longSide : Int
             longSide =
                 max window.width window.height
 
+            shortSide : Int
             shortSide =
                 min window.width window.height
         in
