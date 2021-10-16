@@ -20,10 +20,11 @@
 <body>
     <div id=\"flint\"></div>
 
-    <script src=\"/static/dev/elm.js\"></script>
+    <script src=\"/static/GIT_VERSION/elm.js\"></script>
     <script>
         const init = {
-            node: document.getElementById('flint')
+            node: document.getElementById(\"flint\"),
+            flags: \"GIT_VERSION\"
         };
 
         const app = Elm.Main.init(init)

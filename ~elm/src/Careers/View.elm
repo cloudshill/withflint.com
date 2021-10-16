@@ -1,5 +1,6 @@
-module FAQ.View exposing (view)
+module Careers.View exposing (view)
 
+import Careers.Types exposing (JobsStatus(..), Model, Msg)
 import Element
     exposing
         ( DeviceClass(..)
@@ -7,6 +8,7 @@ import Element
         , alignBottom
         , alignLeft
         , alignRight
+        , alignTop
         , centerX
         , centerY
         , column
@@ -17,6 +19,7 @@ import Element
         , link
         , maximum
         , minimum
+        , mouseOver
         , newTabLink
         , padding
         , paddingEach
@@ -30,49 +33,12 @@ import Element
         , text
         , width
         )
+import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
-import FAQ.Types exposing (Model, Msg)
+import List
 import Router.Routes exposing (Page(..), toPath)
 import Styles exposing (colors, heading, textStyles)
-
-
-data : List ( String, String )
-data =
-    [ ( "Who is Flint for?"
-      , "Chefs who want to save time and money purchasing from independent wholesalers. If you find yourself spending hours comparing pricing, or if you have given up trying to get competitive pricing every week and have settled with a few suppliers, then this is a great fit for you!"
-      )
-    , ( "What happens in case if something is missing from my order or the quality of the ingredients is bad?"
-      , "If something is missing or bad you can connect directly with your account manager to rectify any issue. As a collective we are able to help advocate on your behalf with wholesalers, with strength in numbers, when needed."
-      )
-    , ( "What type of products can I order on The Collective?"
-      , "Today we’re focused on working with meat and seafood wholesalers. In the future, we’ll be adding produce and dry goods wholesalers to our network. Our goal is to be a one stop shop for all your purchasing needs."
-      )
-    , ( "How do you get better prices?"
-      , "As a collective we are able to use the group buying power to negotiate price savings for everyone. We work with most of the wholesalers in lower mainland to get up-to-date pricing every time you order! Comparing so many suppliers assures that you are not missing out on any savings.\n\n"
-      )
-    , ( "How much does this cost? How do you make money?"
-      , "We make money by finding you savings, and then sharing in those savings 50/50 for the first 3 months. After 3 months, we take a small fee of cost + 5%. For example, if we can help you save $100 on your order, we would split that half-half, so $50 for you, and $50 for us. After 3 months, our share will drop to a cost + 5% model. It takes a lot of work to stay on top of the best prices as the market is changing all the time, so these fees help us cover the costs of helping you manage relationships with wholesalers, negotiating prices on your behalf, and always finding you the best prices every week.\n\n"
-      )
-    , ( "Do I have to sign a contract? Can I stop ordering?"
-      , "You do not need to sign a contract, and you can stop purchasing through us at any time. Our goal is to win your business by providing the absolute best service and prices in town, and by consistently doing that month after month, year after year. If you are not satisfied with our service, you can stop purchasing from us at any time."
-      )
-    , ( "Are there order minimums or delivery fees?"
-      , "We automatically take all that information into account when finding you the best source for your order. Standard industry minimums and delivery fees still apply.\n\n"
-      )
-    , ( "What are the payment terms?"
-      , "Net-7 payment terms. We also offer Net 30 terms for a small fee of $10/order. This helps us cover the additional financing and banking fees we accrue in order to provide you with Net 30 terms.\nDirect Autopayment approved on purchase.\n\n"
-      )
-    , ( "How do I pay?"
-      , "We’ll send you a form to fill out to set up pre-authorized debit. This is the most convenient and cost effective way for you to pay. We do not accept credit cards because of the additional fees that are charged by the big credit card companies, which will eventually be passed on to you through higher prices or fees. Our goal is to help you save as much money as possible, and supporting credit cards goes against this."
-      )
-    , ( "Which days can I get delivery?"
-      , "We'll be able to find the best wholesalers for you any day of the week."
-      )
-    , ( "When is the order deadline?"
-      , "The order deadline is 11:00am to guarantee next day delivery. The earlier you place your order, the better pricing you can get. This is because every wholesaler has different order deadlines, so the earlier you place your order, the more price lists we can compare for you."
-      )
-    ]
 
 
 view : Model -> Element Msg
@@ -82,22 +48,57 @@ view model =
         responsiveLayout =
             case ( model.device.class, model.device.orientation ) of
                 ( Desktop, _ ) ->
-                    desktopLayout
+                    desktopLayout model
 
                 ( Phone, _ ) ->
-                    phoneLayout
+                    phoneLayout model
 
                 ( Tablet, _ ) ->
-                    tabletLayout
+                    tabletLayout model
 
                 ( BigDesktop, _ ) ->
-                    desktopLayout
+                    desktopLayout model
     in
     column [ height fill, width fill ] responsiveLayout
 
 
-phoneLayout : List (Element msg)
-phoneLayout =
+jobPhoneView : { a | title : String, location : String, equity : String, experience : String, url : String } -> Element msg
+jobPhoneView job =
+    row [ width fill ]
+        [ column [ alignLeft, spacingXY 0 10, width fill ]
+            [ row [ Font.color colors.orange, width fill ]
+                [ text job.title
+                ]
+            , row [ Font.size 15, width fill ]
+                [ column [ spacingXY 0 10 ]
+                    [ row [ alignLeft ] [ text job.location ]
+                    , row [ alignLeft ] [ text job.equity ]
+                    , row [ alignLeft ] [ text job.experience ]
+                    ]
+                ]
+            ]
+        , column
+            [ Border.color colors.orange
+            , Border.width 1
+            , Border.rounded 2
+            , padding 10
+            , Font.size 15
+            , Font.color colors.orange
+            , mouseOver [ Background.color colors.orange, Font.color colors.white3 ]
+            , alignTop
+            , alignRight
+            ]
+            [ newTabLink
+                []
+                { url = job.url
+                , label = text "Apply Now"
+                }
+            ]
+        ]
+
+
+phoneLayout : Model -> List (Element msg)
+phoneLayout model =
     [ column
         [ width fill
         , paddingXY 30 0
@@ -114,30 +115,21 @@ phoneLayout =
             [ column [ centerX, width fill ]
                 [ row
                     (heading ++ [ centerX ])
-                    [ text "FAQ" ]
+                    [ text "Careers" ]
                 ]
             ]
-        , column [ width fill, height fill, spacingXY 30 20 ]
-            (List.map
-                (\( ques, answer ) ->
-                    column
-                        [ width fill
-                        , paddingEach { top = 20, left = 30, right = 30, bottom = 30 }
-                        , Border.color colors.white2
-                        , Border.rounded 3
-                        , Border.shadow
-                            { offset = ( 0, 0 )
-                            , size = 2
-                            , blur = 8
-                            , color = colors.gray3
-                            }
-                        , spacingXY 0 20
-                        ]
-                        [ paragraph (heading ++ [ padding 10, Font.color colors.orange, Font.size 20 ]) [ text <| ques ]
-                        , paragraph (padding 10 :: textStyles) [ text <| answer ]
-                        ]
-                )
-                data
+        , column [ width fill, height fill, spacingXY 30 60, width <| maximum 500 fill, centerX ]
+            (case model.jobs of
+                Results jobs ->
+                    jobs
+                        |> List.map
+                            (\job -> row [ centerX, width fill ] [ jobPhoneView job ])
+
+                Loading ->
+                    [ row [] [ text "Loading ..." ] ]
+
+                NoJobs ->
+                    [ row [] [ text "No Jobs" ] ]
             )
         , row [ width fill, centerX, paddingXY 0 50 ]
             [ column ([ centerX, width fill, spacingXY 50 20, centerX, Font.size 15 ] ++ textStyles)
@@ -187,8 +179,8 @@ phoneLayout =
     ]
 
 
-tabletLayout : List (Element msg)
-tabletLayout =
+tabletLayout : Model -> List (Element msg)
+tabletLayout model =
     [ column
         [ width fill
         , paddingXY 50 0
@@ -204,32 +196,21 @@ tabletLayout =
             [ column [ centerX, width fill, width (minimum 600 shrink) ]
                 [ row
                     (heading ++ [ centerX ])
-                    [ text "FAQ" ]
+                    [ text "Careers" ]
                 ]
             ]
-        , column [ width fill, height fill, spacingXY 30 20, centerX ]
-            (List.map
-                (\( ques, answer ) ->
-                    column
-                        [ centerX
-                        , width fill
-                        , width (maximum 900 fill)
-                        , paddingEach { top = 20, left = 30, right = 40, bottom = 30 }
-                        , Border.color colors.white2
-                        , Border.rounded 3
-                        , Border.shadow
-                            { offset = ( 0, 0 )
-                            , size = 2
-                            , blur = 8
-                            , color = colors.gray3
-                            }
-                        , spacingXY 0 20
-                        ]
-                        [ paragraph (heading ++ [ padding 10, Font.color colors.orange, Font.size 20 ]) [ text <| ques ]
-                        , paragraph (paddingEach { left = 50, top = 10, bottom = 10, right = 0 } :: textStyles) [ text <| answer ]
-                        ]
-                )
-                data
+        , column [ width fill, height fill, spacingXY 30 40, centerX ]
+            (case model.jobs of
+                Results jobs ->
+                    jobs
+                        |> List.map
+                            (\job -> column [ width <| maximum 700 fill, centerX ] [ jobView job ])
+
+                Loading ->
+                    [ row [] [ text "Loading ..." ] ]
+
+                NoJobs ->
+                    [ row [] [ text "No Jobs" ] ]
             )
         , row [ width fill, paddingEach { top = 100, bottom = 20, left = 0, right = 0 } ]
             [ column [ width fill ]
@@ -284,8 +265,40 @@ tabletLayout =
     ]
 
 
-desktopLayout : List (Element msg)
-desktopLayout =
+jobView : { a | title : String, location : String, equity : String, experience : String, url : String } -> Element msg
+jobView job =
+    row [ width fill ]
+        [ column [ alignLeft, spacingXY 0 10 ]
+            [ row [ Font.color colors.orange ]
+                [ text job.title
+                ]
+            , row [ Font.size 15, spacingXY 30 0 ]
+                [ column [] [ text job.location ]
+                , column [] [ text job.equity ]
+                , column [] [ text job.experience ]
+                ]
+            ]
+        , column
+            [ alignRight
+            , Border.color colors.orange
+            , Border.width 1
+            , Border.rounded 2
+            , padding 10
+            , Font.size 15
+            , Font.color colors.orange
+            , mouseOver [ Background.color colors.orange, Font.color colors.white3 ]
+            ]
+            [ newTabLink
+                []
+                { url = job.url
+                , label = text "Apply Now"
+                }
+            ]
+        ]
+
+
+desktopLayout : Model -> List (Element msg)
+desktopLayout model =
     [ column
         [ width fill
         , paddingXY 100 0
@@ -298,39 +311,26 @@ desktopLayout =
                 , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
                 }
             ]
-        , row [ width fill, height fill, paddingXY 0 100, spacing 10 ]
+        , row [ width fill, height fill, paddingEach { left = 0, right = 0, top = 100, bottom = 50 }, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink), width fill, centerX ]
                 [ paragraph
                     heading
-                    [ text "FAQ" ]
+                    [ text "Careers" ]
                 ]
             ]
-        , row [ width fill, height fill, centerX, spacingXY 20 20, paddingEach { top = 5, bottom = 120, left = 0, right = 0 } ]
-            [ column [ spacingXY 0 20, centerX, width fill ]
-                (List.map
-                    (\( ques, answer ) ->
-                        column
-                            [ width fill
-                            , paddingEach { top = 20, left = 30, right = 40, bottom = 30 }
-                            , Border.color colors.white2
-                            , Border.rounded 3
-                            , Border.shadow
-                                { offset = ( 0, 0 )
-                                , size = 2
-                                , blur = 8
-                                , color = colors.gray3
-                                }
-                            , spacingXY 0 20
-                            , width fill
-                            , centerX
-                            ]
-                            [ row (heading ++ [ Font.color colors.orange, Font.size 20 ]) [ text <| ques ]
-                            , paragraph (paddingEach { left = 50, top = 0, bottom = 0, right = 0 } :: textStyles) [ text <| answer ]
-                            ]
-                    )
-                    data
-                )
-            ]
+        , column [ width fill, height fill, centerX, spacingXY 20 40, paddingEach { top = 5, bottom = 40, left = 0, right = 0 } ]
+            (case model.jobs of
+                Results jobs ->
+                    jobs
+                        |> List.map
+                            (\job -> column [ width <| maximum 1000 fill, centerX ] [ jobView job ])
+
+                Loading ->
+                    [ row [] [ text "Loading ..." ] ]
+
+                NoJobs ->
+                    [ row [] [ text "No Jobs" ] ]
+            )
         , row [ width fill, paddingEach { top = 100, bottom = 20, left = 0, right = 0 } ]
             [ column [ width fill ]
                 [ row

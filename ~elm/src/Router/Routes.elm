@@ -8,6 +8,7 @@ type Page
     | NotFound
     | Contact
     | FAQ
+    | Careers
 
 
 routes : Parser (Page -> a) a
@@ -17,6 +18,7 @@ routes =
         , map NotFound (s "404")
         , map Contact (s "contact")
         , map FAQ (s "faq")
+        , map Careers (s "careers")
         ]
 
 
@@ -34,3 +36,6 @@ toPath page =
 
         FAQ ->
             "/faq"
+
+        Careers ->
+            "/careers"

@@ -1,5 +1,6 @@
 module View exposing (view)
 
+import Careers.View
 import Contact.View
 import Element
     exposing
@@ -22,10 +23,7 @@ import Types exposing (Model, Msg(..))
 view : Model -> { title : String, body : List (Html Types.Msg) }
 view model =
     { title = "Flint — Competitive Prices without the hassle"
-    , body =
-        [ Element.layout [ width fill ] <|
-            el [ paddingXY 0 40, width <| maximum 1500 fill, centerX ] (renderRoute model)
-        ]
+    , body = [ Element.layout [ width fill ] <| el [ paddingXY 0 40, width <| maximum 1500 fill, centerX ] (renderRoute model) ]
     }
 
 
@@ -43,3 +41,6 @@ renderRoute model =
 
         FAQ ->
             Element.map MsgForFAQ (FAQ.View.view model.faq)
+
+        Careers ->
+            Element.map MsgForCareers (Careers.View.view model.careers)
