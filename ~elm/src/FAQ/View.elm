@@ -193,12 +193,24 @@ tabletLayout =
         [ width fill
         , paddingXY 50 0
         ]
-        [ row []
-            [ Element.link
-                []
-                { url = toPath Home
-                , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
-                }
+        [ row [ width fill ]
+            [ column [ width fill ]
+                [ Element.link
+                    []
+                    { url = toPath Home
+                    , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
+                    }
+                ]
+            , column [ width fill, alignRight ]
+                [ column (width fill :: textStyles)
+                    [ row [ spacingXY 30 0, alignRight ]
+                        [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
+                        , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
+                        , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
+                        , row [] [ link [ padding 5 ] { url = toPath Careers, label = text "Careers" } ]
+                        ]
+                    ]
+                ]
             ]
         , row [ width fill, height fill, paddingXY 0 50 ]
             [ column [ centerX, width fill, width (minimum 600 shrink) ]
@@ -245,7 +257,7 @@ tabletLayout =
                     [ text "© 2021 Flint, all rights reserved" ]
                 ]
             , column [ width fill, alignBottom ]
-                [ row [ spacingXY 20 0, centerX, paddingXY 40 0 ]
+                [ row [ spacingXY 20 0, centerX, alignRight ]
                     [ row []
                         [ newTabLink
                             []
@@ -269,16 +281,6 @@ tabletLayout =
                         ]
                     ]
                 ]
-            , column [ width fill, alignBottom ]
-                [ column (width fill :: textStyles)
-                    [ row [ spacingXY 30 0, alignRight ]
-                        [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath Careers, label = text "Careers" } ]
-                        ]
-                    ]
-                ]
             ]
         ]
     ]
@@ -291,12 +293,24 @@ desktopLayout =
         , paddingXY 100 0
         , centerX
         ]
-        [ row [ width fill, centerX ]
-            [ Element.link
-                [ width fill ]
-                { url = toPath Home
-                , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
-                }
+        [ row [ width fill ]
+            [ column [ width fill ]
+                [ Element.link
+                    []
+                    { url = toPath Home
+                    , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
+                    }
+                ]
+            , column [ width fill, alignRight ]
+                [ column (width fill :: textStyles)
+                    [ row [ spacingXY 30 0, alignRight ]
+                        [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
+                        , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
+                        , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
+                        , row [] [ link [ padding 5 ] { url = toPath Careers, label = text "Careers" } ]
+                        ]
+                    ]
+                ]
             ]
         , row [ width fill, height fill, paddingXY 0 100, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink), width fill, centerX ]
@@ -345,7 +359,7 @@ desktopLayout =
                     [ text "© 2021 Flint, all rights reserved" ]
                 ]
             , column [ width fill, alignBottom ]
-                [ row [ spacingXY 20 0, centerX ]
+                [ row [ spacingXY 20 0, centerX, alignRight ]
                     [ row []
                         [ newTabLink
                             []
@@ -366,16 +380,6 @@ desktopLayout =
                             { url = "https://www.linkedin.com/company/withflint"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
                             }
-                        ]
-                    ]
-                ]
-            , column [ width fill, alignBottom ]
-                [ column (width fill :: textStyles)
-                    [ row [ spacingXY 30 0, alignRight ]
-                        [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath Careers, label = text "Careers" } ]
                         ]
                     ]
                 ]
