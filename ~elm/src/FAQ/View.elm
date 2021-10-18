@@ -133,7 +133,7 @@ phoneLayout =
                             }
                         , spacingXY 0 20
                         ]
-                        [ paragraph (heading ++ [ padding 10, Font.color colors.orange, Font.size 20 ]) [ text <| ques ]
+                        [ paragraph (heading ++ [ padding 10, Font.color colors.orange1, Font.size 20 ]) [ text <| ques ]
                         , paragraph (padding 10 :: textStyles) [ text <| answer ]
                         ]
                 )
@@ -237,7 +237,7 @@ tabletLayout =
                             }
                         , spacingXY 0 20
                         ]
-                        [ paragraph (heading ++ [ padding 10, Font.color colors.orange, Font.size 20 ]) [ text <| ques ]
+                        [ paragraph (heading ++ [ padding 10, Font.color colors.orange1, Font.size 20 ]) [ text <| ques ]
                         , paragraph (paddingEach { left = 50, top = 10, bottom = 10, right = 0 } :: textStyles) [ text <| answer ]
                         ]
                 )
@@ -338,7 +338,7 @@ desktopLayout =
                             , width fill
                             , centerX
                             ]
-                            [ row (heading ++ [ Font.color colors.orange, Font.size 20 ]) [ text <| ques ]
+                            [ row (heading ++ [ Font.color colors.orange1, Font.size 20 ]) [ text <| ques ]
                             , paragraph (paddingEach { left = 50, top = 0, bottom = 0, right = 0 } :: textStyles) [ text <| answer ]
                             ]
                     )

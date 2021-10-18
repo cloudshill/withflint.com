@@ -66,7 +66,7 @@ jobPhoneView : { a | title : String, location : String, equity : String, experie
 jobPhoneView job =
     row [ width fill ]
         [ column [ alignLeft, spacingXY 0 10, width fill, paddingXY 10 0 ]
-            [ row [ Font.color colors.orange, width <| maximum 300 fill ]
+            [ row [ Font.color colors.orange1, width <| maximum 300 fill ]
                 [ paragraph [] [ text job.title ]
                 ]
             , row [ Font.size 15, width fill ]
@@ -78,18 +78,19 @@ jobPhoneView job =
                 ]
             ]
         , column
-            [ Border.color colors.orange
-            , Border.width 1
-            , Border.rounded 2
-            , padding 10
-            , Font.size 15
-            , Font.color colors.orange
-            , mouseOver [ Background.color colors.orange, Font.color colors.white3 ]
-            , alignTop
+            [ alignTop
             , alignRight
             ]
             [ newTabLink
-                []
+                [ Border.color colors.orange1
+                , Border.width 1
+                , Border.rounded 2
+                , padding 10
+                , Font.size 15
+                , Font.color colors.white3
+                , Background.color colors.orange1
+                , mouseOver [ Background.color colors.orange2 ]
+                ]
                 { url = job.url
                 , label = text "Apply Now"
                 }
@@ -271,7 +272,7 @@ jobView : { a | title : String, location : String, equity : String, experience :
 jobView job =
     row [ width fill ]
         [ column [ alignLeft, spacingXY 0 10 ]
-            [ row [ Font.color colors.orange ]
+            [ row [ Font.color colors.orange1 ]
                 [ text job.title
                 ]
             , row [ Font.size 15, spacingXY 30 0 ]
@@ -282,16 +283,17 @@ jobView job =
             ]
         , column
             [ alignRight
-            , Border.color colors.orange
-            , Border.width 1
-            , Border.rounded 2
-            , padding 10
-            , Font.size 15
-            , Font.color colors.orange
-            , mouseOver [ Background.color colors.orange, Font.color colors.white3 ]
             ]
             [ newTabLink
-                []
+                [ Border.color colors.orange1
+                , Border.width 1
+                , Border.rounded 2
+                , padding 10
+                , Font.size 15
+                , Font.color colors.white3
+                , Background.color colors.orange1
+                , mouseOver [ Background.color colors.orange2 ]
+                ]
                 { url = job.url
                 , label = text "Apply Now"
                 }

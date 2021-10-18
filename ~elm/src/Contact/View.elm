@@ -18,6 +18,7 @@ import Element
         , link
         , maximum
         , minimum
+        , mouseOver
         , newTabLink
         , padding
         , paddingEach
@@ -31,6 +32,7 @@ import Element
         , text
         , width
         )
+import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Router.Routes exposing (Page(..), toPath)
@@ -98,10 +100,10 @@ phoneLayout =
                 , centerX
                 ]
                 [ column [ width fill, spacingXY 0 15, paddingXY 0 20 ]
-                    [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange ]) [ text "Sales" ]
+                    [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Sales" ]
                     , row [ centerX ] [ paragraph (textStyles ++ [ Font.center, paddingXY 40 30, height <| minimum 120 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
-                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center ]) { url = "mailto:sales@withflint.com", label = text "sales@withflint.com" }
-                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center ]) { url = "tel:+1 (604) 200-6482", label = text "+1 (604) 200-6482" }
+                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:sales@withflint.com", label = text "sales@withflint.com" }
+                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 200-6482", label = text "+1 (604) 200-6482" }
                     ]
                 ]
             , row
@@ -122,10 +124,10 @@ phoneLayout =
                 , centerX
                 ]
                 [ column [ width fill, spacingXY 0 15, paddingXY 0 20 ]
-                    [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange ]) [ text "Account Management" ]
+                    [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Account Management" ]
                     , row [ centerX ] [ paragraph (textStyles ++ [ Font.center, paddingXY 40 30, height <| minimum 120 fill ]) [ text "Already a customer?\nWe are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
-                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center ]) { url = "mailto:order@withflint.com", label = text "order@withflint.com" }
-                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center ]) { url = "tel:+1 (604) 245-8168", label = text "+1 (604) 245-8168" }
+                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:order@withflint.com", label = text "order@withflint.com" }
+                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 245-8168", label = text "+1 (604) 245-8168" }
                     ]
                 ]
             ]
@@ -232,10 +234,10 @@ tabletLayout =
                     , spacingXY 0 25
                     , paddingXY 0 40
                     ]
-                    [ row (heading ++ [ centerX, Font.size 30, height <| minimum 50 fill, Font.color colors.orange ]) [ text "Sales" ]
+                    [ row (heading ++ [ centerX, Font.size 30, height <| minimum 50 fill, Font.color colors.orange1 ]) [ text "Sales" ]
                     , row [ width <| maximum 500 fill, centerX ] [ paragraph (textStyles ++ [ Font.center, paddingXY 40 0, height <| minimum 120 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
-                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 300 fill, Font.color colors.white3, Font.center, centerX ]) { url = "mailto:sales@withflint.com", label = text "sales@withflint.com" }
-                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 300 fill, Font.color colors.white3, Font.center, centerX ]) { url = "tel:+1 (604) 200-6482", label = text "+1 (604) 200-6482" }
+                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 300 fill, Font.color colors.white3, Font.center, centerX, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:sales@withflint.com", label = text "sales@withflint.com" }
+                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 300 fill, Font.color colors.white3, Font.center, centerX, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 200-6482", label = text "+1 (604) 200-6482" }
                     ]
                 ]
             , row
@@ -260,10 +262,10 @@ tabletLayout =
                     , spacingXY 0 25
                     , paddingXY 0 40
                     ]
-                    [ row (heading ++ [ centerX, Font.size 30, height <| minimum 80 fill, Font.color colors.orange ]) [ text "Account Management" ]
+                    [ row (heading ++ [ centerX, Font.size 30, height <| minimum 80 fill, Font.color colors.orange1 ]) [ text "Account Management" ]
                     , row [ width <| maximum 500 fill, centerX ] [ paragraph (textStyles ++ [ Font.center, paddingEach { left = 40, right = 40, top = 0, bottom = 30 }, height <| minimum 120 fill ]) [ text "Already a customer?We are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
-                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 300 fill, Font.color colors.white3, centerX, Font.center ]) { url = "mailto:order@withflint.com", label = text "order@withflint.com" }
-                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 300 fill, Font.color colors.white3, centerX, Font.center ]) { url = "tel:+1 (604) 245-8168", label = text "+1 (604) 245-8168" }
+                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 300 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:order@withflint.com", label = text "order@withflint.com" }
+                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 300 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 245-8168", label = text "+1 (604) 245-8168" }
                     ]
                 ]
             ]
@@ -359,7 +361,7 @@ desktopLayout =
                 , padding 30
                 , spacingXY 0 20
                 ]
-                [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange ]) [ text "Sales" ]
+                [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Sales" ]
                 , row [ paddingEach { top = 50, bottom = 0, left = 0, right = 0 }, centerX ] [ paragraph (textStyles ++ [ Font.center, height <| minimum 200 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2, Border.rounded 3 ]) [ el [ centerX ] <| text "sales@withflint.com" ]
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2, Border.rounded 3 ]) [ el [ centerX ] <| text "+1 (604) 200-6482" ]
@@ -379,7 +381,7 @@ desktopLayout =
                 , padding 30
                 , spacingXY 0 20
                 ]
-                [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange ]) [ text "Account Management" ]
+                [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Account Management" ]
                 , row [ paddingEach { top = 50, bottom = 0, left = 0, right = 0 } ] [ paragraph (textStyles ++ [ Font.center, height <| minimum 200 fill ]) [ text "Already a customer?\nWe are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2 ]) [ el [ centerX ] <| text "order@withflint.com" ]
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Border.rounded 3, Font.color colors.gray2 ]) [ el [ centerX ] <| text "+1 (604) 245-8168" ]
@@ -477,7 +479,7 @@ bigDesktopLayout =
                 , padding 30
                 , spacingXY 0 20
                 ]
-                [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange ]) [ text "Sales" ]
+                [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Sales" ]
                 , row [ paddingEach { top = 50, bottom = 0, left = 0, right = 0 }, centerX ] [ paragraph (textStyles ++ [ Font.center, height <| minimum 200 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2, Border.rounded 3 ]) [ el [ centerX ] <| text "sales@withflint.com" ]
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2, Border.rounded 3 ]) [ el [ centerX ] <| text "+1 (604) 200-6482" ]
@@ -497,7 +499,7 @@ bigDesktopLayout =
                 , padding 30
                 , spacingXY 0 20
                 ]
-                [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange ]) [ text "Account Management" ]
+                [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Account Management" ]
                 , row [ paddingEach { top = 50, bottom = 0, left = 0, right = 0 } ] [ paragraph (textStyles ++ [ Font.center, height <| minimum 200 fill ]) [ text "Already a customer?\nWe are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2 ]) [ el [ centerX ] <| text "order@withflint.com" ]
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Border.rounded 3, Font.color colors.gray2 ]) [ el [ centerX ] <| text "+1 (604) 245-8168" ]

@@ -14,7 +14,7 @@ import Element.Border as Border
 import Element.Font as Font
 
 
-colors : { deepBlue1 : Color, deepBlue2 : Color, deepBlue3 : Color, blue1 : Color, blue2 : Color, blue3 : Color, green1 : Color, green2 : Color, green3 : Color, red1 : Color, red2 : Color, red3 : Color, red4 : Color, white1 : Color, white2 : Color, white3 : Color, gray1 : Color, gray2 : Color, gray3 : Color, black1 : Color, black2 : Color, black3 : Color, creme1 : Color, creme2 : Color, orange : Color }
+colors : { deepBlue1 : Color, deepBlue2 : Color, deepBlue3 : Color, blue1 : Color, blue2 : Color, blue3 : Color, green1 : Color, green2 : Color, green3 : Color, red1 : Color, red2 : Color, red3 : Color, red4 : Color, white1 : Color, white2 : Color, white3 : Color, gray1 : Color, gray2 : Color, gray3 : Color, black1 : Color, black2 : Color, black3 : Color, creme1 : Color, creme2 : Color, orange1 : Color, orange2 : Color }
 colors =
     { deepBlue1 = rgb255 1 55 89
     , deepBlue2 = rgb255 9 68 105
@@ -40,7 +40,8 @@ colors =
     , black3 = rgb255 51 51 50
     , creme1 = rgb255 251 247 210
     , creme2 = rgb255 253 252 234
-    , orange = rgb255 255 127 0
+    , orange1 = rgb255 255 127 0
+    , orange2 = rgb255 245 105 20
     }
 
 
@@ -83,7 +84,7 @@ buttons : ButtonStyle msg
 buttons =
     { primary =
         base
-            ++ [ Background.color colors.orange
+            ++ [ Background.color colors.orange1
                ]
     , secondary =
         base

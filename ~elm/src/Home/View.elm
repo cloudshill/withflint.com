@@ -18,6 +18,7 @@ import Element
         , link
         , maximum
         , minimum
+        , mouseOver
         , newTabLink
         , padding
         , paddingEach
@@ -99,9 +100,9 @@ tabletLayout =
                         [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on ay savings." ]
                     ]
                 , column ([ width fill, centerX ] ++ textStyles)
-                    [ link ([ width fill, centerX, width (maximum 200 fill), Font.center ] ++ buttons.primary)
+                    [ link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
                         { url = toPath Contact, label = text "Get in touch" }
-                    , link ([ width fill, centerX, width (maximum 200 fill), Font.center ] ++ buttons.secondary)
+                    , link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.gray1 ] ] ++ buttons.secondary)
                         { url = toPath FAQ, label = text "FAQ" }
                     ]
                 ]
@@ -206,7 +207,7 @@ tabletLayout =
                             ]
                         , column [ width fill, paddingXY 0 20 ]
                             [ row ([ width (maximum 600 fill), centerX ] ++ textStyles) [ paragraph [ spacingXY 0 20, Font.center ] [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ] ]
-                            , row [ centerX, paddingXY 0 20, Font.color colors.orange, Font.bold ] [ text " — Nicolas Haddad - Farmers Meal Catering" ]
+                            , row [ centerX, paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ text " — Nicolas Haddad - Farmers Meal Catering" ]
                             ]
                         ]
                     ]
@@ -220,7 +221,7 @@ tabletLayout =
                             ]
                         , column [ width fill, paddingXY 0 20 ]
                             [ row ([ width (maximum 600 fill), centerX ] ++ textStyles) [ paragraph [ Font.center, spacingXY 0 20 ] [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ] ]
-                            , row [ centerX, paddingXY 0 20, Font.color colors.orange, Font.bold ] [ text " — Alaia Fayad – Grass Roots Meal Prep" ]
+                            , row [ centerX, paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ text " — Alaia Fayad – Grass Roots Meal Prep" ]
                             ]
                         ]
                     ]
@@ -229,7 +230,7 @@ tabletLayout =
         , row [ Background.color colors.gray2, padding 40, width fill, Border.rounded 3, width <| maximum 800 fill, centerX ]
             [ column [ width fill, spacingXY 0 30 ]
                 [ row [ centerX ] [ paragraph [ centerX, width fill, Font.size 20, Font.color colors.white3 ] [ text "Still not convinced? Try it for free, no commitment needed." ] ]
-                , link (buttons.primary ++ [ centerX, padding 15 ])
+                , link (buttons.primary ++ [ centerX, padding 15, mouseOver [ Background.color colors.orange2 ] ])
                     { url = toPath Contact, label = text "Get in touch" }
                 ]
             ]
@@ -301,9 +302,9 @@ phoneLayout =
                     (textStyles ++ [ Font.center, paddingXY 0 40, width fill ])
                     [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on ay savings." ]
                 , column ([ width fill, centerX ] ++ textStyles)
-                    [ link ([ width fill, centerX, width (maximum 200 fill), Font.center ] ++ buttons.primary)
+                    [ link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
                         { url = toPath Contact, label = text "Get in touch" }
-                    , link ([ width fill, centerX, width (maximum 200 fill), Font.center ] ++ buttons.secondary)
+                    , link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.gray1 ] ] ++ buttons.secondary)
                         { url = toPath FAQ, label = text "FAQ" }
                     ]
                 ]
@@ -415,7 +416,7 @@ phoneLayout =
                             ]
                         , column [ width fill, paddingXY 0 20 ]
                             [ row [ width (maximum 400 fill), centerX ] [ paragraph ([ spacingXY 0 20, Font.center ] ++ textStyles) [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ] ]
-                            , row [ centerX, paddingXY 0 20, Font.color colors.orange, Font.bold ] [ paragraph [] [ text "Nicolas Haddad" ] ]
+                            , row [ centerX, paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ paragraph [] [ text "Nicolas Haddad" ] ]
                             ]
                         ]
                     ]
@@ -429,7 +430,7 @@ phoneLayout =
                             ]
                         , column [ width fill, paddingXY 0 20 ]
                             [ row [ width (maximum 400 fill), centerX ] [ paragraph ([ spacingXY 0 20, Font.center ] ++ textStyles) [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ] ]
-                            , column [ centerX, paddingXY 0 20, Font.color colors.orange, Font.bold ] [ paragraph [] [ text "Alaia Fayad" ] ]
+                            , column [ centerX, paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ paragraph [] [ text "Alaia Fayad" ] ]
                             ]
                         ]
                     ]
@@ -438,7 +439,7 @@ phoneLayout =
         , row [ Background.color colors.gray2, padding 30, width fill, Border.rounded 3 ]
             [ column [ width fill, spacingXY 0 30 ]
                 [ paragraph [ Font.center, width fill, Font.size 16, Font.color colors.white3 ] [ text "Still not convinced? Try it for free, no commitment needed." ]
-                , link (buttons.primary ++ [ centerX, padding 15 ])
+                , link (buttons.primary ++ [ centerX, padding 15, mouseOver [ Background.color colors.orange2 ] ])
                     { url = toPath Contact, label = text "Get in touch" }
                 ]
             ]
@@ -525,9 +526,9 @@ desktopLayout =
                     (textStyles ++ [ paddingXY 0 40 ])
                     [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on ay savings." ]
                 , row (width fill :: textStyles)
-                    [ link ([ Font.center, width fill, width (maximum 200 fill) ] ++ buttons.primary)
+                    [ link ([ Font.center, width fill, width (maximum 200 fill), mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
                         { url = toPath Contact, label = text "Get in touch" }
-                    , link ([ Font.center, width fill, width (maximum 200 fill) ] ++ buttons.secondary)
+                    , link ([ Font.center, width fill, width (maximum 200 fill), mouseOver [ Background.color colors.gray1 ] ] ++ buttons.secondary)
                         { url = toPath FAQ, label = text "FAQ" }
                     ]
                 ]
@@ -621,7 +622,7 @@ desktopLayout =
                         ]
                     , column [ width fill, paddingEach { top = 0, bottom = 0, left = 20, right = 0 }, centerX ]
                         [ paragraph (textStyles ++ [ spacingXY 0 10, width <| minimum 900 fill, width fill ]) [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ]
-                        , row [ paddingXY 0 20, Font.color colors.orange, Font.bold ] [ text " — Nicolas Haddad - Farmers Meal Catering" ]
+                        , row [ paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ text " — Nicolas Haddad - Farmers Meal Catering" ]
                         ]
                     ]
                 , row [ padding 30 ]
@@ -633,14 +634,14 @@ desktopLayout =
                         ]
                     , column [ width fill, paddingEach { top = 0, bottom = 0, left = 20, right = 0 }, centerX ]
                         [ paragraph (textStyles ++ [ spacingXY 0 10, width <| minimum 900 fill, width fill ]) [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ]
-                        , row [ paddingXY 0 20, Font.color colors.orange, Font.bold ] [ text " — Alaia Fayad - Grass Roots Meal Prep" ]
+                        , row [ paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ text " — Alaia Fayad - Grass Roots Meal Prep" ]
                         ]
                     ]
                 ]
             ]
         , row [ Background.color colors.gray2, padding 30, width fill, Border.rounded 3 ]
             [ paragraph [ paddingXY 20 0, centerX, width fill, Font.color colors.white3 ] [ text "Still not convinced? Try it for free, no commitment needed." ]
-            , link (buttons.primary ++ [ alignLeft, padding 15 ])
+            , link (buttons.primary ++ [ alignLeft, padding 15, mouseOver [ Background.color colors.orange2 ] ])
                 { url = toPath Contact, label = text "Get in touch" }
             ]
         , row [ width fill, paddingEach { top = 100, bottom = 20, left = 0, right = 0 } ]
