@@ -246,14 +246,14 @@ tabletLayout =
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://github.com/withflint/withflint.com"
+                            { url = "https://github.com/withflint"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
                             }
                         ]
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://www.linkedin.com/company/withflint/mycompany/"
+                            { url = "https://www.linkedin.com/company/withflint/"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
                             }
                         ]
@@ -461,14 +461,14 @@ phoneLayout =
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://github.com/withflint/withflint.com"
+                            { url = "https://github.com/withflint"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
                             }
                         ]
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://www.linkedin.com/company/withflint/mycompany/"
+                            { url = "https://www.linkedin.com/company/withflint/"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
                             }
                         ]
@@ -654,14 +654,14 @@ desktopLayout =
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://github.com/withflint/withflint.com"
+                            { url = "https://github.com/withflint"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
                             }
                         ]
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://www.linkedin.com/company/withflint/mycompany/"
+                            { url = "https://www.linkedin.com/company/withflint/"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
                             }
                         ]

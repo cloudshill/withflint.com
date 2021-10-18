@@ -152,7 +152,7 @@ phoneLayout model =
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://github.com/withflint/withflint.com"
+                            { url = "https://github.com/withflint"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
                             }
                         ]
@@ -237,7 +237,7 @@ tabletLayout model =
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://github.com/withflint/withflint.com"
+                            { url = "https://github.com/withflint"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
                             }
                         ]
@@ -356,7 +356,7 @@ desktopLayout model =
                     , row []
                         [ newTabLink
                             []
-                            { url = "https://github.com/withflint/withflint.com"
+                            { url = "https://github.com/withflint"
                             , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
                             }
                         ]
