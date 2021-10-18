@@ -65,9 +65,9 @@ view model =
 jobPhoneView : { a | title : String, location : String, equity : String, experience : String, url : String } -> Element msg
 jobPhoneView job =
     row [ width fill ]
-        [ column [ alignLeft, spacingXY 0 10, width fill ]
-            [ row [ Font.color colors.orange, width fill ]
-                [ text job.title
+        [ column [ alignLeft, spacingXY 0 10, width fill, paddingXY 10 0 ]
+            [ row [ Font.color colors.orange, width <| maximum 300 fill ]
+                [ paragraph [] [ text job.title ]
                 ]
             , row [ Font.size 15, width fill ]
                 [ column [ spacingXY 0 10 ]
@@ -204,7 +204,7 @@ tabletLayout model =
                 Results jobs ->
                     jobs
                         |> List.map
-                            (\job -> column [ width <| maximum 700 fill, centerX ] [ jobView job ])
+                            (\job -> column [ width fill, centerX ] [ jobView job ])
 
                 Loading ->
                     [ row [] [ text "Loading ..." ] ]
@@ -323,7 +323,7 @@ desktopLayout model =
                 Results jobs ->
                     jobs
                         |> List.map
-                            (\job -> column [ width <| maximum 1000 fill, centerX ] [ jobView job ])
+                            (\job -> column [ width fill, centerX ] [ jobView job ])
 
                 Loading ->
                     [ row [] [ text "Loading ..." ] ]

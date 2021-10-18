@@ -13928,8 +13928,7 @@ var $author$project$Careers$View$desktopLayout = function (model) {
 											$mdgriffith$elm_ui$Element$column,
 											_List_fromArray(
 												[
-													$mdgriffith$elm_ui$Element$width(
-													A2($mdgriffith$elm_ui$Element$maximum, 1000, $mdgriffith$elm_ui$Element$fill)),
+													$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
 													$mdgriffith$elm_ui$Element$centerX
 												]),
 											_List_fromArray(
@@ -14217,7 +14216,8 @@ var $author$project$Careers$View$jobPhoneView = function (job) {
 					[
 						$mdgriffith$elm_ui$Element$alignLeft,
 						A2($mdgriffith$elm_ui$Element$spacingXY, 0, 10),
-						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+						A2($mdgriffith$elm_ui$Element$paddingXY, 10, 0)
 					]),
 				_List_fromArray(
 					[
@@ -14226,11 +14226,18 @@ var $author$project$Careers$View$jobPhoneView = function (job) {
 						_List_fromArray(
 							[
 								$mdgriffith$elm_ui$Element$Font$color($author$project$Styles$colors.O),
-								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+								$mdgriffith$elm_ui$Element$width(
+								A2($mdgriffith$elm_ui$Element$maximum, 300, $mdgriffith$elm_ui$Element$fill))
 							]),
 						_List_fromArray(
 							[
-								$mdgriffith$elm_ui$Element$text(job.d6)
+								A2(
+								$mdgriffith$elm_ui$Element$paragraph,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$text(job.d6)
+									]))
 							])),
 						A2(
 						$mdgriffith$elm_ui$Element$row,
@@ -14774,8 +14781,7 @@ var $author$project$Careers$View$tabletLayout = function (model) {
 											$mdgriffith$elm_ui$Element$column,
 											_List_fromArray(
 												[
-													$mdgriffith$elm_ui$Element$width(
-													A2($mdgriffith$elm_ui$Element$maximum, 700, $mdgriffith$elm_ui$Element$fill)),
+													$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
 													$mdgriffith$elm_ui$Element$centerX
 												]),
 											_List_fromArray(
