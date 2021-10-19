@@ -2,27 +2,18 @@ module FAQ.View exposing (view)
 
 import Element
     exposing
-        ( DeviceClass(..)
+        ( DeviceClass
         , Element
-        , alignBottom
-        , alignLeft
-        , alignRight
         , centerX
-        , centerY
         , column
-        , el
         , fill
         , height
-        , image
-        , link
         , maximum
         , minimum
-        , newTabLink
         , padding
         , paddingEach
         , paddingXY
         , paragraph
-        , px
         , row
         , shrink
         , spacing
@@ -33,7 +24,7 @@ import Element
 import Element.Border as Border
 import Element.Font as Font
 import FAQ.Types exposing (Model, Msg)
-import Router.Routes exposing (Page(..), toPath)
+import Layout exposing (footer, header, layout)
 import Styles exposing (colors, heading, textStyles)
 
 
@@ -77,39 +68,17 @@ data =
 
 view : Model -> Element Msg
 view model =
-    let
-        responsiveLayout : List (Element msg)
-        responsiveLayout =
-            case ( model.device.class, model.device.orientation ) of
-                ( Desktop, _ ) ->
-                    desktopLayout
-
-                ( Phone, _ ) ->
-                    phoneLayout
-
-                ( Tablet, _ ) ->
-                    tabletLayout
-
-                ( BigDesktop, _ ) ->
-                    desktopLayout
-    in
-    column [ height fill, width fill ] responsiveLayout
+    column [ height fill, width fill ] (layout { phone = phoneLayout, tablet = tabletLayout, desktop = desktopLayout } model.device.class)
 
 
-phoneLayout : List (Element msg)
-phoneLayout =
+phoneLayout : DeviceClass -> List (Element msg)
+phoneLayout device =
     [ column
         [ width fill
         , paddingXY 30 0
         , spacingXY 0 20
         ]
-        [ row []
-            [ Element.link
-                []
-                { url = toPath Home
-                , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
-                }
-            ]
+        [ row [ width fill ] (header device)
         , row [ width fill, height fill, paddingXY 0 50 ]
             [ column [ centerX, width fill ]
                 [ row
@@ -139,79 +108,18 @@ phoneLayout =
                 )
                 data
             )
-        , row [ width fill, centerX, paddingXY 0 50 ]
-            [ column ([ centerX, width fill, spacingXY 50 20, centerX, Font.size 15 ] ++ textStyles)
-                [ row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath Home, label = text "Home" } ]
-                , row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
-                , row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath Contact, label = text "Contact" } ]
-                , row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath Careers, label = text "Careers" } ]
-                ]
-            ]
-        , row [ width fill, centerX ]
-            [ column [ width fill, alignBottom ]
-                [ row [ spacingXY 20 0, centerX ]
-                    [ row []
-                        [ newTabLink
-                            []
-                            { url = "https://www.ycombinator.com/companies/flint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/YC_logo.svg", description = "Flint" }
-                            }
-                        ]
-                    , row []
-                        [ newTabLink
-                            []
-                            { url = "https://github.com/withflint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
-                            }
-                        ]
-                    , row []
-                        [ newTabLink
-                            []
-                            { url = "https://www.linkedin.com/company/withflint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
-                            }
-                        ]
-                    ]
-                ]
-            ]
-        , row
-            [ width fill, paddingEach { top = 30, bottom = 10, left = 0, right = 0 } ]
-            [ image [ width (px 50), height (px 30), centerX ]
-                { src = "/images/logo.svg"
-                , description = "Flint"
-                }
-            ]
-        , row [ centerX, width fill, Font.size 10 ]
-            [ el [ centerX ] <| text "© 2021 Flint, all rights reserved" ]
+        , column [ width fill ] (footer device)
         ]
     ]
 
 
-tabletLayout : List (Element msg)
-tabletLayout =
+tabletLayout : DeviceClass -> List (Element msg)
+tabletLayout device =
     [ column
         [ width fill
         , paddingXY 50 0
         ]
-        [ row [ width fill ]
-            [ column [ width fill ]
-                [ Element.link
-                    []
-                    { url = toPath Home
-                    , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
-                    }
-                ]
-            , column [ width fill, alignRight ]
-                [ column (width fill :: textStyles)
-                    [ row [ spacingXY 30 0, alignRight ]
-                        [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath Careers, label = text "Careers" } ]
-                        ]
-                    ]
-                ]
-            ]
+        [ row [ width fill ] (header device)
         , row [ width fill, height fill, paddingXY 0 50 ]
             [ column [ centerX, width fill, width (minimum 600 shrink) ]
                 [ row
@@ -243,75 +151,19 @@ tabletLayout =
                 )
                 data
             )
-        , row [ width fill, paddingEach { top = 100, bottom = 20, left = 0, right = 0 } ]
-            [ column [ width fill ]
-                [ row
-                    [ width fill
-                    ]
-                    [ image [ width (px 80), height (px 50) ]
-                        { src = "/images/logo.svg"
-                        , description = "Flint"
-                        }
-                    ]
-                , row [ width fill, Font.size 10 ]
-                    [ text "© 2021 Flint, all rights reserved" ]
-                ]
-            , column [ width fill, alignBottom ]
-                [ row [ spacingXY 20 0, centerX, alignRight ]
-                    [ row []
-                        [ newTabLink
-                            []
-                            { url = "https://www.ycombinator.com/companies/flint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/YC_logo.svg", description = "Flint" }
-                            }
-                        ]
-                    , row []
-                        [ newTabLink
-                            []
-                            { url = "https://github.com/withflint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
-                            }
-                        ]
-                    , row []
-                        [ newTabLink
-                            []
-                            { url = "https://www.linkedin.com/company/withflint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
-                            }
-                        ]
-                    ]
-                ]
-            ]
+        , row [ width fill ] (footer device)
         ]
     ]
 
 
-desktopLayout : List (Element msg)
-desktopLayout =
+desktopLayout : DeviceClass -> List (Element msg)
+desktopLayout device =
     [ column
         [ width fill
         , paddingXY 100 0
         , centerX
         ]
-        [ row [ width fill ]
-            [ column [ width fill ]
-                [ Element.link
-                    []
-                    { url = toPath Home
-                    , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
-                    }
-                ]
-            , column [ width fill, alignRight ]
-                [ column (width fill :: textStyles)
-                    [ row [ spacingXY 30 0, alignRight ]
-                        [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
-                        , row [] [ link [ padding 5 ] { url = toPath Careers, label = text "Careers" } ]
-                        ]
-                    ]
-                ]
-            ]
+        [ row [ width fill ] (header device)
         , row [ width fill, height fill, paddingXY 0 100, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink), width fill, centerX ]
                 [ paragraph
@@ -345,44 +197,6 @@ desktopLayout =
                     data
                 )
             ]
-        , row [ width fill, paddingEach { top = 100, bottom = 20, left = 0, right = 0 } ]
-            [ column [ width fill ]
-                [ row
-                    [ width fill
-                    ]
-                    [ image [ width (px 80), height (px 50) ]
-                        { src = "/images/logo.svg"
-                        , description = "Flint"
-                        }
-                    ]
-                , row [ width fill, Font.size 10 ]
-                    [ text "© 2021 Flint, all rights reserved" ]
-                ]
-            , column [ width fill, alignBottom ]
-                [ row [ spacingXY 20 0, centerX, alignRight ]
-                    [ row []
-                        [ newTabLink
-                            []
-                            { url = "https://www.ycombinator.com/companies/flint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/YC_logo.svg", description = "Flint" }
-                            }
-                        ]
-                    , row []
-                        [ newTabLink
-                            []
-                            { url = "https://github.com/withflint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
-                            }
-                        ]
-                    , row []
-                        [ newTabLink
-                            []
-                            { url = "https://www.linkedin.com/company/withflint"
-                            , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
-                            }
-                        ]
-                    ]
-                ]
-            ]
+        , row [ width fill ] (footer device)
         ]
     ]

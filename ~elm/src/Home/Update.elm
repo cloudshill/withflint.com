@@ -1,7 +1,7 @@
 module Home.Update exposing (init, update)
 
 import Browser.Dom
-import Element exposing (Device, DeviceClass(..), Orientation(..))
+import Device exposing (classify)
 import Home.Types exposing (Model, Msg(..))
 import Return exposing (Return, return)
 import Task
@@ -13,7 +13,7 @@ init =
     return
         { topic = ""
         , device =
-            classifyDevice
+            classify
                 { height = 0
                 , width = 0
                 }
@@ -38,7 +38,7 @@ updateHome msg model =
             return
                 { model
                     | device =
-                        classifyDevice
+                        classify
                             { width = round viewport.viewport.width
                             , height = round viewport.viewport.height
                             }
@@ -49,41 +49,9 @@ updateHome msg model =
             return
                 { model
                     | device =
-                        classifyDevice
+                        classify
                             { width = x
                             , height = y
                             }
                 }
                 Cmd.none
-
-
-classifyDevice : { window | height : Int, width : Int } -> Device
-classifyDevice window =
-    { class =
-        let
-            longSide : Int
-            longSide =
-                max window.width window.height
-
-            shortSide : Int
-            shortSide =
-                min window.width window.height
-        in
-        if shortSide < 700 then
-            Phone
-
-        else if longSide <= 1300 then
-            Tablet
-
-        else if longSide > 1300 && longSide <= 1920 then
-            Desktop
-
-        else
-            BigDesktop
-    , orientation =
-        if window.width < window.height then
-            Portrait
-
-        else
-            Landscape
-    }
