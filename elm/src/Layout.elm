@@ -51,7 +51,7 @@ header device =
                 [ Element.link
                     []
                     { url = toPath Home
-                    , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
+                    , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/static/images/logo.svg", description = "Flint" }
                     }
                 ]
             ]
@@ -62,7 +62,7 @@ header device =
                     [ Element.link
                         []
                         { url = toPath Home
-                        , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/images/logo.svg", description = "Flint" }
+                        , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/static/images/logo.svg", description = "Flint" }
                         }
                     ]
                 , column [ width fill, alignRight ]
@@ -93,26 +93,26 @@ footer device =
                 ]
             , row [ width fill, centerX ]
                 [ column [ width fill, alignBottom ]
-                    [ row [ spacingXY 20 0, centerX ]
+                    [ row [ spacingXY 60 0, centerX ]
                         [ row []
                             [ newTabLink
                                 []
                                 { url = "https://www.ycombinator.com/companies/flint"
-                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/YC_logo.svg", description = "Flint" }
+                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/static/images/YC_logo.svg", description = "Flint" }
                                 }
                             ]
                         , row []
                             [ newTabLink
                                 []
                                 { url = "https://github.com/withflint"
-                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
+                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/static/images/github_logo.svg", description = "Flint" }
                                 }
                             ]
                         , row []
                             [ newTabLink
                                 []
                                 { url = "https://www.linkedin.com/company/withflint/"
-                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
+                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/static/images/linkedin-icon-2.svg", description = "Flint" }
                                 }
                             ]
                         ]
@@ -121,7 +121,7 @@ footer device =
             , row
                 [ width fill, paddingEach { top = 30, bottom = 10, left = 0, right = 0 } ]
                 [ image [ width (px 50), height (px 30), centerX ]
-                    { src = "/images/logo.svg"
+                    { src = "/static/images/logo.svg"
                     , description = "Flint"
                     }
                 ]
@@ -136,7 +136,7 @@ footer device =
                         [ width fill
                         ]
                         [ image [ width (px 80), height (px 50) ]
-                            { src = "/images/logo.svg"
+                            { src = "/static/images/logo.svg"
                             , description = "Flint"
                             }
                         ]
@@ -144,26 +144,26 @@ footer device =
                         [ text "© 2021 Flint, all rights reserved" ]
                     ]
                 , column [ width fill, alignBottom, alignRight ]
-                    [ row [ spacingXY 20 0, centerX, alignRight ]
+                    [ row [ spacingXY 60 0, centerX, alignRight ]
                         [ row []
                             [ newTabLink
                                 []
                                 { url = "https://www.ycombinator.com/companies/flint"
-                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/YC_logo.svg", description = "Flint" }
+                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/static/images/YC_logo.svg", description = "Flint" }
                                 }
                             ]
                         , row []
                             [ newTabLink
                                 []
                                 { url = "https://github.com/withflint"
-                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/github_logo.svg", description = "Flint" }
+                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/static/images/github_logo.svg", description = "Flint" }
                                 }
                             ]
                         , row []
                             [ newTabLink
                                 []
                                 { url = "https://www.linkedin.com/company/withflint/"
-                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/images/linkedin-icon-2.svg", description = "Flint" }
+                                , label = Element.image [ centerY, alignLeft, width (px 25), height (px 25) ] { src = "/static/images/linkedin-icon-2.svg", description = "Flint" }
                                 }
                             ]
                         ]

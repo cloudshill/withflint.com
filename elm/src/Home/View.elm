@@ -55,7 +55,7 @@ tabletLayout device =
                 [ row [ centerX ]
                     [ paragraph
                         (heading ++ [ Font.center ])
-                        [ text "Competitve prices without any hassle" ]
+                        [ text "Competitive prices without any hassle" ]
                     ]
                 , row [ centerX ]
                     [ paragraph
@@ -71,7 +71,7 @@ tabletLayout device =
                 ]
             , row [ width fill, width <| maximum 600 fill, height <| maximum 600 fill, centerX ]
                 [ image [ width fill ]
-                    { src = "/images/delivery.png"
+                    { src = "/static/images/delivery.png"
                     , description = "Delivery"
                     }
                 ]
@@ -103,7 +103,7 @@ tabletLayout device =
                 ]
                 [ row [ centerX, height (minimum 120 fill) ]
                     [ image [ width fill ]
-                        { src = "images/online-store.png"
+                        { src = "/static/images/online-store.png"
                         , description = "online-store"
                         }
                     ]
@@ -126,7 +126,7 @@ tabletLayout device =
                 ]
                 [ row [ centerX, height (minimum 120 fill) ]
                     [ image [ width fill ]
-                        { src = "images/wishlist.png"
+                        { src = "/static/images/wishlist.png"
                         , description = "wishlist"
                         }
                     ]
@@ -149,7 +149,7 @@ tabletLayout device =
                 ]
                 [ row [ centerX, height (minimum 120 fill) ]
                     [ image [ width fill ]
-                        { src = "images/shield.png"
+                        { src = "/static/images/shield.png"
                         , description = "shield"
                         }
                     ]
@@ -164,7 +164,7 @@ tabletLayout device =
                     [ column [ width fill ]
                         [ row [ width fill, padding 30 ]
                             [ image [ width fill, width <| px 100, height <| px 100, clip, Border.rounded 100, centerX ]
-                                { src = "images/nicholashaddad.jpg"
+                                { src = "/static/images/nicholashaddad.jpg"
                                 , description = "nicholashaddad"
                                 }
                             ]
@@ -178,7 +178,7 @@ tabletLayout device =
                     [ column [ width fill ]
                         [ row [ width fill, padding 30 ]
                             [ image [ width fill, width <| px 100, height <| px 100, clip, Border.rounded 100, centerX ]
-                                { src = "images/alaia.jpg"
+                                { src = "/static/images/alaia.jpg"
                                 , description = "alaiafayad"
                                 }
                             ]
@@ -215,7 +215,7 @@ phoneLayout device =
                 [ row [ centerX, paddingXY 10 0 ]
                     [ paragraph
                         (heading ++ [ Font.size 40, Font.center ])
-                        [ text "Competitve prices without any hassle" ]
+                        [ text "Competitive prices without any hassle" ]
                     ]
                 , paragraph
                     (textStyles ++ [ Font.center, paddingXY 0 40, width fill ])
@@ -229,7 +229,7 @@ phoneLayout device =
                 ]
             , row [ width fill ]
                 [ image [ width fill ]
-                    { src = "/images/delivery.png"
+                    { src = "/static/images/delivery.png"
                     , description = "Delivery"
                     }
                 ]
@@ -261,7 +261,7 @@ phoneLayout device =
                 ]
                 [ row [ centerX, height (minimum 120 fill) ]
                     [ image [ width fill ]
-                        { src = "images/online-store.png"
+                        { src = "/static/images/online-store.png"
                         , description = "online-store"
                         }
                     ]
@@ -284,7 +284,7 @@ phoneLayout device =
                 ]
                 [ row [ centerX, height (minimum 120 fill) ]
                     [ image [ width fill ]
-                        { src = "images/wishlist.png"
+                        { src = "/static/images/wishlist.png"
                         , description = "wishlist"
                         }
                     ]
@@ -307,7 +307,7 @@ phoneLayout device =
                 ]
                 [ row [ centerX, height (minimum 120 fill) ]
                     [ image [ width fill ]
-                        { src = "images/shield.png"
+                        { src = "/static/images/shield.png"
                         , description = "shield"
                         }
                     ]
@@ -329,7 +329,7 @@ phoneLayout device =
                     [ column [ width fill ]
                         [ row [ width fill ]
                             [ image [ width fill, width <| px 100, height <| px 100, clip, Border.rounded 100, centerX ]
-                                { src = "images/nicholashaddad.jpg"
+                                { src = "/static/images/nicholashaddad.jpg"
                                 , description = "nicholashaddad"
                                 }
                             ]
@@ -343,7 +343,7 @@ phoneLayout device =
                     [ column [ width fill ]
                         [ row [ width fill ]
                             [ image [ width fill, width <| px 100, height <| px 100, clip, Border.rounded 100, centerX ]
-                                { src = "images/alaia.jpg"
+                                { src = "/static/images/alaia.jpg"
                                 , description = "alaiafayad"
                                 }
                             ]
@@ -379,7 +379,7 @@ desktopLayout device =
             [ column [ width fill, width (minimum 600 shrink) ]
                 [ paragraph
                     heading
-                    [ text "Competitve prices without any hassle" ]
+                    [ text "Competitive prices without any hassle" ]
                 , paragraph
                     (textStyles ++ [ paddingXY 0 40 ])
                     [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on ay savings." ]
@@ -392,7 +392,7 @@ desktopLayout device =
                 ]
             , column [ width fill ]
                 [ image [ width fill ]
-                    { src = "/images/delivery.png"
+                    { src = "/static/images/delivery.png"
                     , description = "Delivery"
                     }
                 ]
@@ -418,7 +418,7 @@ desktopLayout device =
                 ]
                 [ row [ centerX, height (minimum 200 fill) ]
                     [ image [ width fill ]
-                        { src = "images/online-store.png"
+                        { src = "/static/images/online-store.png"
                         , description = "online-store"
                         }
                     ]
@@ -439,7 +439,7 @@ desktopLayout device =
                 ]
                 [ row [ centerX, height (minimum 200 fill) ]
                     [ image [ width fill ]
-                        { src = "images/wishlist.png"
+                        { src = "/static/images/wishlist.png"
                         , description = "wishlist"
                         }
                     ]
@@ -460,7 +460,7 @@ desktopLayout device =
                 ]
                 [ row [ centerX, height (minimum 200 fill) ]
                     [ image [ width fill ]
-                        { src = "images/shield.png"
+                        { src = "/static/images/shield.png"
                         , description = "shield"
                         }
                     ]
@@ -474,7 +474,7 @@ desktopLayout device =
                 , row [ padding 30 ]
                     [ column [ centerX, paddingEach { top = 0, bottom = 0, left = 0, right = 50 } ]
                         [ image [ width fill, centerX, width <| px 120, height <| px 120, clip, Border.rounded 100 ]
-                            { src = "images/nicholashaddad.jpg"
+                            { src = "/static/images/nicholashaddad.jpg"
                             , description = "nicholashaddad"
                             }
                         ]
@@ -486,7 +486,7 @@ desktopLayout device =
                 , row [ padding 30 ]
                     [ column [ centerX, paddingEach { top = 0, bottom = 0, left = 0, right = 50 } ]
                         [ image [ width fill, centerX, width <| px 120, height <| px 120, clip, Border.rounded 100 ]
-                            { src = "images/alaia.jpg"
+                            { src = "/static/images/alaia.jpg"
                             , description = "alaia"
                             }
                         ]
