@@ -84,8 +84,11 @@ module Program =
                 let body =
                     $"""
                 {formData.reason}
+                <br><br>
                 {formData.firstName} {formData.lastName}
+                <br>
                 {formData.phone}
+                <br>
                 {formData.email}
                 """
 
@@ -95,7 +98,7 @@ module Program =
                 smtpClient.EnableSsl <- true
 
                 use mailToManager =
-                    new MailMessage("careers@withflint.com", "taqdeer@withflint.com")
+                    new MailMessage("careers@withflint.com", "simon@withflint.com")
 
                 attachments
                 |> List.map
@@ -103,8 +106,17 @@ module Program =
                         mailToManager.Attachments.Add(new Attachment(contents, "", contentType)))
                 |> ignore
 
-                mailToManager.Subject <- "Flint - New Application :" + formData.firstName + " " + formData.lastName + " " + formData.applicationTitle
+                mailToManager.Subject <-
+                    "Flint - New Application : "
+                    + formData.firstName
+                    + " "
+                    + formData.lastName
+                    + " "
+                    + formData.applicationTitle
+
                 mailToManager.Body <- body
+                mailToManager.IsBodyHtml <- true
+
                 mailToManager.ReplyToList.Add(formData.email)
 
                 smtpClient.Send(mailToManager)
