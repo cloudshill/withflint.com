@@ -60,7 +60,7 @@ tabletLayout device =
                 , row [ centerX ]
                     [ paragraph
                         (textStyles ++ [ padding 30, Font.center, width <| maximum 600 fill ])
-                        [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on ay savings." ]
+                        [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on any savings." ]
                     ]
                 , column ([ width fill, centerX ] ++ textStyles)
                     [ link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
@@ -219,7 +219,7 @@ phoneLayout device =
                     ]
                 , paragraph
                     (textStyles ++ [ Font.center, paddingXY 0 40, width fill ])
-                    [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on ay savings." ]
+                    [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on any savings." ]
                 , column ([ width fill, centerX ] ++ textStyles)
                     [ link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
                         { url = toPath Contact, label = text "Get in touch" }
@@ -382,7 +382,7 @@ desktopLayout device =
                     [ text "Competitive prices without any hassle" ]
                 , paragraph
                     (textStyles ++ [ paddingXY 0 40 ])
-                    [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on ay savings." ]
+                    [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on any savings." ]
                 , row (width fill :: textStyles)
                     [ link ([ Font.center, width fill, width (maximum 200 fill), mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
                         { url = toPath Contact, label = text "Get in touch" }

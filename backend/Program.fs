@@ -11,6 +11,7 @@ module Program =
     open Microsoft.Extensions.DependencyInjection
     open Microsoft.AspNetCore.Http
     open Microsoft.Extensions.FileProviders
+    open Microsoft.AspNetCore.Rewrite
 
     open System.Threading
 
@@ -155,7 +156,6 @@ module Program =
     let webApp: HttpHandler =
         choose [ GET
                  >=> choose [ route "/" >=> htmlFile "../index.html"
-                              route "/favicon.ico" >=> htmlFile "../favicon.ico"
                               route "/yc" >=> yc
                               route "/healthz" >=> text (healthz ()) ]
                  POST >=> choose [ route "/apply" >=> apply ]
@@ -165,13 +165,14 @@ module Program =
         let path =
             Path.Combine(Directory.GetCurrentDirectory(), @"../static")
 
-        use provider = new PhysicalFileProvider(path)
+        use provider =  PhysicalFileProvider(path)
         provider
 
     let configureApp (app: IApplicationBuilder) =
         let fileProvider = getDirectory ()
 
         app
+            .UseRewriter((RewriteOptions()).AddRewrite("favicon.ico", "static/favicon.ico", false))
             .UseDefaultFiles()
             .UseStaticFiles(StaticFileOptions(FileProvider = fileProvider, RequestPath = PathString("/static")))
             .UseGiraffe(webApp)
