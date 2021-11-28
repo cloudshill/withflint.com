@@ -130,7 +130,8 @@ footer device =
             ]
 
         _ ->
-            [ row [ width fill, paddingEach { top = 100, bottom = 20, left = 0, right = 0 } ]
+            [ row [ height fill ] []
+            , row [ width fill, paddingEach { top = 100, bottom = 20, left = 0, right = 0 } ]
                 [ column [ width fill ]
                     [ row
                         [ width fill

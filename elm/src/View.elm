@@ -8,8 +8,10 @@ import Element
         , centerX
         , el
         , fill
+        , height
         , maximum
         , paddingXY
+        , scrollbarY
         , text
         , width
         )
@@ -23,7 +25,7 @@ import Types exposing (Model, Msg(..))
 view : Model -> { title : String, body : List (Html Types.Msg) }
 view model =
     { title = "Flint — Competitive Prices without the hassle"
-    , body = [ Element.layout [ width fill ] <| el [ paddingXY 0 40, width <| maximum 1500 fill, centerX ] (renderRoute model) ]
+    , body = [ Element.layout [ width fill, height fill, scrollbarY ] <| el [ paddingXY 0 40, width <| maximum 1500 fill, centerX, height fill ] (renderRoute model) ]
     }
 
 

@@ -188,22 +188,23 @@ desktopLayout : DeviceClass -> List (Element msg)
 desktopLayout device =
     [ column
         [ width fill
+        , height fill
         , paddingXY 100 0
         , centerX
         ]
         [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 100, spacing 10 ]
+        , row [ width fill, paddingXY 0 100, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink) ]
                 [ paragraph
                     heading
                     [ text "Contact Us" ]
                 ]
             ]
-        , row [ width fill, height fill, spacingXY 20 20, paddingEach { top = 5, bottom = 120, left = 0, right = 0 } ]
+        , row [ width fill, spacingXY 20 20, paddingEach { top = 5, bottom = 120, left = 0, right = 0 } ]
             [ column
                 [ width fill
                 , centerX
-                , height (minimum 300 fill)
+                , height (maximum 500 shrink)
                 , Border.color colors.white2
                 , Border.rounded 3
                 , Border.shadow
@@ -222,7 +223,7 @@ desktopLayout device =
                 ]
             , column
                 [ width fill
-                , height (minimum 300 fill)
+                , height (maximum 500 shrink)
                 , centerX
                 , Border.color colors.white2
                 , Border.rounded 3
@@ -241,6 +242,6 @@ desktopLayout device =
                 , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Border.rounded 3, Font.color colors.gray2 ]) [ el [ centerX ] <| text "+1 (604) 245-8168" ]
                 ]
             ]
-        , row [ width fill ] (footer device)
+        , row [ width fill, height fill ] (footer device)
         ]
     ]

@@ -3,19 +3,14 @@ module Careers.Update exposing (init, update)
 import Browser.Dom
 import Careers.Types exposing (ApplicationStatus(..), Field(..), Job, JobsStatus(..), Model, Msg(..), SubmissionMessage(..))
 import Device exposing (classify)
+import Dict
 import File.Select as Select
 import Http
+import Json.Decode as D
 import Maybe exposing (withDefault)
-import Regex
 import Return exposing (Return, return)
 import Task
 import Types
-
-
-findJobs : Regex.Regex
-findJobs =
-    Maybe.withDefault Regex.never <|
-        Regex.fromString """(https:\\/\\/www\\.ycombinator\\.com\\/companies\\/flint\\/jobs\\/[^"]+)">([^<]+)<\\/a><\\/div><div class="job-details"><div class="job-detail">([^<]+)<\\/div><div class="job-detail">([^<]+)<\\/div><div class="job-detail">([^<]+)"""
 
 
 defaulToEmptyString : Maybe String -> String
@@ -80,6 +75,11 @@ update msgFor model =
             return model Cmd.none
 
 
+jobDescription : Dict.Dict String String -> Job
+jobDescription list =
+    parseJobs [ Dict.get "url" list, Dict.get "title" list, Dict.get "location" list, Dict.get "equity" list, Dict.get "experience" list ]
+
+
 updateCareers : Msg -> Model -> Return Msg Model
 updateCareers msg model =
     case msg of
@@ -112,7 +112,25 @@ updateCareers msg model =
         ReceiveYCJobsData result ->
             case result of
                 Ok html ->
-                    return { model | jobs = Regex.find findJobs html |> List.map (.submatches >> parseJobs) |> Results } Cmd.none
+                    let
+                        list : Result D.Error (List (Dict.Dict String String))
+                        list =
+                            D.decodeString (D.list (D.dict D.string)) html
+
+                        allJobs : List Job
+                        allJobs =
+                            case list of
+                                Ok jobs ->
+                                    List.map jobDescription jobs
+
+                                Err _ ->
+                                    []
+                    in
+                    if List.length allJobs == 0 then
+                        return { model | jobs = NoJobs } Cmd.none
+
+                    else
+                        return { model | jobs = allJobs |> Results } Cmd.none
 
                 Err _ ->
                     return { model | jobs = NoJobs } Cmd.none
@@ -184,7 +202,7 @@ updateCareers msg model =
             else
                 return
                     { model
-                        | error = "Please fill all the required fields"
+                        | error = "Oh no! All fields are required..."
                         , applicant =
                             { applicant
                                 | firstName = invalidIfEmpty model.applicant.firstName

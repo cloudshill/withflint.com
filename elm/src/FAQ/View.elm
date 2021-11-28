@@ -160,11 +160,12 @@ desktopLayout : DeviceClass -> List (Element msg)
 desktopLayout device =
     [ column
         [ width fill
+        , height fill
         , paddingXY 100 0
         , centerX
         ]
         [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 100, spacing 10 ]
+        , row [ width fill, paddingXY 0 100, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink), width fill, centerX ]
                 [ paragraph
                     heading
@@ -197,6 +198,6 @@ desktopLayout device =
                     data
                 )
             ]
-        , row [ width fill ] (footer device)
+        , row [ width fill, height fill ] (footer device)
         ]
     ]

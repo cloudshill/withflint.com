@@ -204,12 +204,13 @@ desktopLayout : DeviceClass -> Model -> List (Element Msg)
 desktopLayout device model =
     [ column
         [ width fill
+        , height fill
         , paddingXY 100 0
         , centerX
         , inFront <| applicationForm device model
         ]
         [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingEach { left = 0, right = 0, top = 100, bottom = 50 }, spacing 10 ]
+        , row [ width fill, paddingEach { left = 0, right = 0, top = 100, bottom = 50 }, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink), width fill, centerX ]
                 [ paragraph
                     heading
@@ -229,7 +230,7 @@ desktopLayout device model =
                 NoJobs ->
                     [ row [] [ text "No Jobs" ] ]
             )
-        , row [ width fill ] (footer device)
+        , row [ width fill, height fill ] (footer device)
         ]
     ]
 
@@ -379,16 +380,29 @@ newSubmissionForm device model =
                         ]
 
                     _ ->
-                        [ column [ Font.size 20 ] [ text "Complete application" ]
+                        [ column [ Font.size 20 ] [ text "Apply To" ]
                         , column [ alignRight ]
-                            [ Input.button [ paddingEach { top = 0, bottom = 3, left = 5, right = 5 }, Border.rounded 2, Font.size 15, Font.color colors.red4, mouseOver [ Font.color colors.white3, Background.color colors.red4 ] ]
+                            [ Input.button
+                                [ paddingEach { top = 0, bottom = 3, left = 5, right = 5 }
+                                , Border.rounded 2
+                                , Font.size 15
+                                , Font.color colors.red4
+                                , mouseOver [ Font.color colors.white3, Background.color colors.red4 ]
+                                ]
                                 { onPress =
                                     Just
                                         (Update
                                             { model
                                                 | applicationStatus = NotInitialized
                                                 , error = ""
-                                                , applicant = { firstName = Empty, lastName = Empty, email = Empty, phone = Empty, resume = Empty, reason = Empty }
+                                                , applicant =
+                                                    { firstName = Empty
+                                                    , lastName = Empty
+                                                    , email = Empty
+                                                    , phone = Empty
+                                                    , resume = Empty
+                                                    , reason = Empty
+                                                    }
                                             }
                                         )
                                 , label = text "x"
@@ -405,7 +419,7 @@ newSubmissionForm device model =
                     _ ->
                         alignLeft
                 ]
-                [ text model.applicationTitle ]
+                [ paragraph [] [ text model.applicationTitle ] ]
             , row [ width fill, Font.size 15 ]
                 [ Input.username
                     [ Border.width 1
@@ -562,13 +576,13 @@ newSubmissionForm device model =
                 [ column [ width fill, spacingXY 0 10 ]
                     [ row [ width fill ]
                         [ column [] [ text <| "Resume" ]
-                        , column [ Font.color colors.red3, paddingXY 10 0, Font.size 10 ]
+                        , column [ Font.color colors.red3, paddingXY 10 0 ]
                             [ case model.applicant.resume of
                                 Valid _ ->
                                     text ""
 
                                 Invalid ->
-                                    text "Required"
+                                    text "Oops your resume is missing"
 
                                 Empty ->
                                     text ""
@@ -647,7 +661,7 @@ newSubmissionForm device model =
                                 ]
                             , row
                                 [ centerX
-                                , Font.size 13
+                                , Font.size 15
                                 , Font.color colors.red3
                                 ]
                                 [ row [] [ text model.error ]
@@ -657,7 +671,7 @@ newSubmissionForm device model =
 
                     _ ->
                         [ column
-                            [ Font.size 13
+                            [ Font.size 15
                             , Font.color colors.red3
                             , width fill
                             ]

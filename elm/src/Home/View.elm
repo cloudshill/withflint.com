@@ -371,11 +371,12 @@ desktopLayout : DeviceClass -> List (Element msg)
 desktopLayout device =
     [ column
         [ width fill
+        , height fill
         , paddingXY 100 0
         , centerX
         ]
         [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 80, spacing 10 ]
+        , row [ width fill, paddingXY 0 80, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink) ]
                 [ paragraph
                     heading
@@ -502,6 +503,6 @@ desktopLayout device =
             , link (buttons.primary ++ [ alignLeft, padding 15, mouseOver [ Background.color colors.orange2 ] ])
                 { url = toPath Contact, label = text "Get in touch" }
             ]
-        , row [ width fill ] (footer device)
+        , row [ width fill, height fill ] (footer device)
         ]
     ]
