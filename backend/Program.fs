@@ -102,7 +102,7 @@ module Program =
                 smtpClient.EnableSsl <- true
 
                 use careers =
-                    MailMessage("careers@withflint.com", "careers@withflint.com")
+                    MailMessage("careers+ws@withflint.com", "careers+ws@withflint.com")
 
                 attachments
                 |> List.iter (fun (contents, contentType, fileName) ->
