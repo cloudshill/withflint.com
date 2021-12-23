@@ -3,6 +3,8 @@
 
 #elm
 */elm-stuff
+output
+outpur
 
 #node
 # Logs
@@ -130,7 +132,7 @@ dist
 
 static/GIT_VERSION
 
-#dotnet 
+#dotnet
 
 *.swp
 *.*~

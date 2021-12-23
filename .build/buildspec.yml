@@ -9,11 +9,12 @@ phases:
       - export GIT_VERSION=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-7)
       - echo "withflint/withflint.com" >> output
       - sort -R ./.build/quotes | head -n1  >> output
-      - echo "$GIT_BRANCH:\ $GIT_VERSION" >> output
+      - echo "$GIT_BRANCH:$GIT_VERSION" >> output
   build:
     commands:
       - make -C $(pwd)/.build build-image TARGET=$(pwd) DOCKERFILE=$(pwd)/.build/Dockerfile >&1
   post_build:
       commands:
-        - if [[ "$CODEBUILD_BUILD_SUCCEEDING" == "0" ]]; then echo "Build Failed\!\n$COMMAND_EXECUTION_ERROR" >> output; else echo "Enjoy!">> output; fi 
-        - curl -d "{ \"text\":\"$(cat output)\"}" -H "Content-Type:application/json" "$CHAT_WEBHOOK"
+        - if [[ "$CODEBUILD_BUILD_SUCCEEDING" == "0" ]]; then echo "Build Failed\!\n$COMMAND_EXECUTION_ERROR" >> output; else echo "Enjoy!">> output; fi
+        - echo "{ \"text\":\"$(cat output)\"}"
+        - curl -X POST -H "Content-Type:application/json" --data "{ \"text\":\"$(cat output)\"}" "$CHAT_WEBHOOK"
