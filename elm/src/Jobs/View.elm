@@ -148,20 +148,16 @@ layout views device model =
                                         , spacing 30
                                         ]
                                         [ paragraph [ Styles.headFont, Font.size 24 ] [ text "We work with the very best." ]
-                                        , row [ width fill ]
-                                            [ column [] [ paragraph Styles.paragraph [ text "At Flint, we're committed to hiring the best people to build our teams. Building great products takes smart, disciplined, and empathetic individuals who can understand what job the products need to get done and imagine innovative ways. Thus we designed the hiring process to help us identify those people." ] ]
-                                            , column []
-                                                [ paragraph Styles.paragraph
-                                                    [ text "We foster a culture of respect, dialogue and growth where our team members can engage in a continuous conversation about product, engineering, and learning. "
-                                                    ]
-                                                ]
-                                            ]
-                                        , row [ width fill ]
-                                            [ image [ centerX ]
-                                                { src = "/static/images/careers-hiring-process.svg"
-                                                , description = "Flint"
-                                                }
-                                            ]
+                                        , paragraph Styles.paragraph [ text "At Flint, we're committed to hiring the best people to build our teams. Building great products takes smart, disciplined, and empathetic individuals who can understand what job the products need to get done and imagine innovative ways. Thus we designed the hiring process to help us identify those people." ]
+                                        , paragraph Styles.paragraph [ text "We foster a culture of respect, dialogue and growth where our team members can engage in a continuous conversation about product, engineering, and learning. " ]
+                                        , newTabLink [ width fill ]
+                                            { url = "/static/images/careers-hiring-process.svg"
+                                            , label =
+                                                image [ centerX, width fill ]
+                                                    { src = "/static/images/careers-hiring-process.svg"
+                                                    , description = "Flint"
+                                                    }
+                                            }
                                         ]
                                     ]
                                 , row (heading ++ [ centerX ])
@@ -212,7 +208,7 @@ layout views device model =
                                         , spacing 30
                                         ]
                                         [ paragraph [ Styles.headFont, Font.size 30 ] [ text "We work with the very best." ]
-                                        , row [ width fill ]
+                                        , row [ width fill, spacing 100 ]
                                             [ column [ width fill, alignTop ] [ paragraph Styles.paragraph [ text "At Flint, we're committed to hiring the best people to build our teams. Building great products takes smart, disciplined, and empathetic individuals who can understand what job the products need to get done and imagine innovative ways. Thus we designed the hiring process to help us identify those people." ] ]
                                             , column [ width fill, alignTop ]
                                                 [ paragraph Styles.paragraph
@@ -221,7 +217,7 @@ layout views device model =
                                                 ]
                                             ]
                                         , row [ width fill ]
-                                            [ image [ centerX ]
+                                            [ image [ width fill, centerX ]
                                                 { src = "/static/images/careers-hiring-process.svg"
                                                 , description = "Flint"
                                                 }
@@ -277,7 +273,7 @@ phoneView _ job model =
                 , Background.color colors.orange1
                 , mouseOver [ Background.color colors.orange2 ]
                 ]
-                { onPress = Just (UpdateAndScrollToTop { model | applicationStatus = NewSubmission, phoneView = False, applicationTitle = job.title })
+                { onPress = Just (Update { model | applicationStatus = NewSubmission, phoneView = False, applicationTitle = job.title })
                 , label = text "Apply Now"
                 }
             ]
