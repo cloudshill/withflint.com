@@ -1,11 +1,12 @@
-module Styles exposing (ButtonStyle, buttons, colors, form, heading, textStyles)
+module Styles exposing (ButtonStyle, buttons, codeFont, colors, font, form, headFont, heading, link, paragraph)
 
+import Device exposing (Device(..))
 import Element
     exposing
         ( Attr
         , Color
-        , DeviceClass(..)
         , Element
+        , alignLeft
         , alignRight
         , centerX
         , column
@@ -13,11 +14,12 @@ import Element
         , fill
         , height
         , maximum
+        , minimum
+        , mouseOver
         , padding
         , paddingXY
         , rgb255
         , row
-        , scrollbarY
         , shrink
         , spacing
         , width
@@ -60,31 +62,47 @@ colors =
 
 heading : List (Attr () msg)
 heading =
-    [ Font.family
-        [ Font.external
-            { name = "Noto Sans"
-            , url = "/static/fonts/Noto_Sans/NotoSans-Regular.ttf"
-            }
-        , Font.sansSerif
-        ]
-    , Font.size 40
+    [ Font.size 40
     , spacing 10
     , paddingXY 0 10
+    , headFont
     ]
 
 
-textStyles : List (Attr () msg)
-textStyles =
-    [ Font.family
-        [ Font.external
-            { name = "Noto Sans"
-            , url = "/static/fonts/Noto_Sans/NotoSans-Regular.ttf"
-            }
+paragraph : List (Element.Attribute msg)
+paragraph =
+    [ alignLeft
+    , spacing 10
+    , Font.size 17
+    , Font.color colors.gray1
+    , Font.letterSpacing -0.3
+    , Font.regular
+    , width fill
+    ]
+
+
+font : Element.Attribute msg
+font =
+    Font.family
+        [ Font.typeface "Open Sans"
         , Font.sansSerif
         ]
-    , Font.size 17
-    , spacing 10
-    ]
+
+
+headFont : Element.Attribute msg
+headFont =
+    Font.family
+        [ Font.typeface "Open Sans"
+        , Font.sansSerif
+        ]
+
+
+codeFont : Element.Attribute msg
+codeFont =
+    Font.family
+        [ Font.typeface "Source Code Pro"
+        , Font.sansSerif
+        ]
 
 
 type alias ButtonStyle msg =
@@ -114,7 +132,7 @@ base =
     ]
 
 
-form : DeviceClass -> List (Element msg) -> Element msg
+form : Device -> List (Element msg) -> Element msg
 form device =
     case device of
         Phone ->
@@ -125,7 +143,6 @@ form device =
                 [ alignRight
                 , spacing 30
                 , padding 30
-                , height shrink
                 , width <| (fill |> maximum 400)
                 , Background.color colors.white3
                 , Border.color colors.white2
@@ -142,8 +159,7 @@ form device =
                     , blur = 10
                     , color = colors.gray3
                     }
-                , scrollbarY
-                , height <| maximum 500 fill
+                , height <| minimum 700 shrink
                 ]
                 >> el [ paddingXY 40 0, alignRight, width fill ]
 
@@ -152,7 +168,6 @@ form device =
                 [ alignRight
                 , spacing 30
                 , padding 30
-                , height shrink
                 , width <| (fill |> maximum 400)
                 , Background.color colors.white3
                 , Border.color colors.white2
@@ -169,7 +184,11 @@ form device =
                     , blur = 10
                     , color = colors.gray3
                     }
-                , scrollbarY
-                , height <| maximum 600 fill
+                , height <| minimum 700 shrink
                 ]
                 >> el [ paddingXY 40 0, alignRight, width fill ]
+
+
+link : List (Element.Attribute msg)
+link =
+    [ Font.underline, mouseOver [ Font.color colors.orange1 ], Font.bold, Font.color colors.black1 ]

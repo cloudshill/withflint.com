@@ -3,8 +3,7 @@ module Contact.View exposing (view)
 import Contact.Types exposing (Model, Msg)
 import Element
     exposing
-        ( DeviceClass
-        , Element
+        ( Element
         , centerX
         , column
         , el
@@ -28,24 +27,23 @@ import Element
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
-import Layout exposing (footer, header, layout)
-import Styles exposing (buttons, colors, heading, textStyles)
+import Layout exposing (layout)
+import Styles exposing (buttons, colors, heading)
 
 
 view : Model -> Element Msg
 view model =
-    column [ height fill, width fill ] (layout { phone = phoneLayout, tablet = tabletLayout, desktop = desktopLayout } model.device.class)
+    layout model.device { phone = phoneLayout, tablet = tabletLayout, desktop = desktopLayout }
 
 
-phoneLayout : DeviceClass -> List (Element msg)
-phoneLayout device =
+phoneLayout : List (Element msg)
+phoneLayout =
     [ column
         [ width fill
         , paddingXY 30 0
         , spacingXY 0 20
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 50 ]
+        [ row [ width fill, height fill, paddingXY 0 50 ]
             [ column [ centerX, width fill ]
                 [ row
                     (heading ++ [ centerX ])
@@ -72,9 +70,9 @@ phoneLayout device =
                 ]
                 [ column [ width fill, spacingXY 0 15, paddingXY 0 20 ]
                     [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Sales" ]
-                    , row [ centerX ] [ paragraph (textStyles ++ [ Font.center, paddingXY 40 30, height <| minimum 120 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
-                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:sales@withflint.com", label = text "sales@withflint.com" }
-                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 200-6482", label = text "+1 (604) 200-6482" }
+                    , row [ centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, paddingXY 40 30, height <| minimum 120 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
+                    , link (Styles.paragraph ++ buttons.primary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:sales@withflint.com", label = text "sales@withflint.com" }
+                    , link (Styles.paragraph ++ buttons.secondary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 200-6482", label = text "+1 (604) 200-6482" }
                     ]
                 ]
             , row
@@ -96,25 +94,23 @@ phoneLayout device =
                 ]
                 [ column [ width fill, spacingXY 0 15, paddingXY 0 20 ]
                     [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Account Management" ]
-                    , row [ centerX ] [ paragraph (textStyles ++ [ Font.center, paddingXY 40 30, height <| minimum 120 fill ]) [ text "Already a customer?\nWe are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
-                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:order@withflint.com", label = text "order@withflint.com" }
-                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 245-8168", label = text "+1 (604) 245-8168" }
+                    , row [ centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, paddingXY 40 30, height <| minimum 120 fill ]) [ text "Already a customer?\nWe are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
+                    , link (Styles.paragraph ++ buttons.primary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:order@withflint.com", label = text "order@withflint.com" }
+                    , link (Styles.paragraph ++ buttons.secondary ++ [ width <| maximum 200 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 245-8168", label = text "+1 (604) 245-8168" }
                     ]
                 ]
             ]
-        , column [ width fill ] (footer device)
         ]
     ]
 
 
-tabletLayout : DeviceClass -> List (Element msg)
-tabletLayout device =
+tabletLayout : List (Element msg)
+tabletLayout =
     [ column
         [ width fill
         , paddingXY 50 0
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 50 ]
+        [ row [ width fill, height fill, paddingXY 0 50 ]
             [ column [ centerX, width fill, width (minimum 600 shrink) ]
                 [ row
                     (heading ++ [ centerX ])
@@ -145,9 +141,9 @@ tabletLayout device =
                     , paddingXY 0 40
                     ]
                     [ row (heading ++ [ centerX, Font.size 30, height <| minimum 50 fill, Font.color colors.orange1 ]) [ text "Sales" ]
-                    , row [ width <| maximum 500 fill, centerX ] [ paragraph (textStyles ++ [ Font.center, paddingXY 40 0, height <| minimum 120 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
-                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 300 fill, Font.color colors.white3, Font.center, centerX, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:sales@withflint.com", label = text "sales@withflint.com" }
-                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 300 fill, Font.color colors.white3, Font.center, centerX, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 200-6482", label = text "+1 (604) 200-6482" }
+                    , row [ width <| maximum 500 fill, centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, paddingXY 40 0, height <| minimum 120 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
+                    , link (Styles.paragraph ++ buttons.primary ++ [ width <| maximum 300 fill, Font.color colors.white3, Font.center, centerX, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:sales@withflint.com", label = text "sales@withflint.com" }
+                    , link (Styles.paragraph ++ buttons.secondary ++ [ width <| maximum 300 fill, Font.color colors.white3, Font.center, centerX, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 200-6482", label = text "+1 (604) 200-6482" }
                     ]
                 ]
             , row
@@ -173,27 +169,24 @@ tabletLayout device =
                     , paddingXY 0 40
                     ]
                     [ row (heading ++ [ centerX, Font.size 30, height <| minimum 80 fill, Font.color colors.orange1 ]) [ text "Account Management" ]
-                    , row [ width <| maximum 500 fill, centerX ] [ paragraph (textStyles ++ [ Font.center, paddingEach { left = 40, right = 40, top = 0, bottom = 30 }, height <| minimum 120 fill ]) [ text "Already a customer?We are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
-                    , link (textStyles ++ buttons.primary ++ [ width <| maximum 300 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:order@withflint.com", label = text "order@withflint.com" }
-                    , link (textStyles ++ buttons.secondary ++ [ width <| maximum 300 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 245-8168", label = text "+1 (604) 245-8168" }
+                    , row [ width <| maximum 500 fill, centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, paddingEach { left = 40, right = 40, top = 0, bottom = 30 }, height <| minimum 120 fill ]) [ text "Already a customer?We are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
+                    , link (Styles.paragraph ++ buttons.primary ++ [ width <| maximum 300 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.orange2 ] ]) { url = "mailto:order@withflint.com", label = text "order@withflint.com" }
+                    , link (Styles.paragraph ++ buttons.secondary ++ [ width <| maximum 300 fill, Font.color colors.white3, centerX, Font.center, mouseOver [ Background.color colors.gray1 ] ]) { url = "tel:+1 (604) 245-8168", label = text "+1 (604) 245-8168" }
                     ]
                 ]
             ]
-        , row [ width fill ] (footer device)
         ]
     ]
 
 
-desktopLayout : DeviceClass -> List (Element msg)
-desktopLayout device =
+desktopLayout : List (Element msg)
+desktopLayout =
     [ column
         [ width fill
         , height fill
-        , paddingXY 100 0
         , centerX
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, paddingXY 0 100, spacing 10 ]
+        [ row [ width fill, paddingXY 0 100, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink) ]
                 [ paragraph
                     heading
@@ -217,9 +210,9 @@ desktopLayout device =
                 , spacingXY 0 20
                 ]
                 [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Sales" ]
-                , row [ paddingEach { top = 50, bottom = 0, left = 0, right = 0 }, centerX ] [ paragraph (textStyles ++ [ Font.center, height <| minimum 200 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
-                , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2, Border.rounded 3 ]) [ el [ centerX ] <| text "sales@withflint.com" ]
-                , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2, Border.rounded 3 ]) [ el [ centerX ] <| text "+1 (604) 200-6482" ]
+                , row [ paddingEach { top = 50, bottom = 0, left = 0, right = 0 }, centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, height <| minimum 200 fill ]) [ text "To learn more and evaluate if you can save money with Flint, simply reach out to our friendly sales team." ] ]
+                , row (Styles.paragraph ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2, Border.rounded 3 ]) [ el [ centerX ] <| text "sales@withflint.com" ]
+                , row (Styles.paragraph ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2, Border.rounded 3 ]) [ el [ centerX ] <| text "+1 (604) 200-6482" ]
                 ]
             , column
                 [ width fill
@@ -237,11 +230,10 @@ desktopLayout device =
                 , spacingXY 0 20
                 ]
                 [ row (heading ++ [ centerX, Font.size 30, Font.color colors.orange1 ]) [ text "Account Management" ]
-                , row [ paddingEach { top = 50, bottom = 0, left = 0, right = 0 } ] [ paragraph (textStyles ++ [ Font.center, height <| minimum 200 fill ]) [ text "Already a customer?\nWe are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
-                , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2 ]) [ el [ centerX ] <| text "order@withflint.com" ]
-                , row (textStyles ++ [ centerX, width <| maximum 300 fill, Font.size 20, Border.rounded 3, Font.color colors.gray2 ]) [ el [ centerX ] <| text "+1 (604) 245-8168" ]
+                , row [ paddingEach { top = 50, bottom = 0, left = 0, right = 0 } ] [ paragraph (Styles.paragraph ++ [ Font.center, height <| minimum 200 fill ]) [ text "Already a customer?\nWe are committed to taking care of you, whether it's basic questions or last minute emergencies. We are on your team to help find savings for exactly what you want, week in and week out. Text, call or email us!" ] ]
+                , row (Styles.paragraph ++ [ centerX, width <| maximum 300 fill, Font.size 20, Font.color colors.gray2 ]) [ el [ centerX ] <| text "order@withflint.com" ]
+                , row (Styles.paragraph ++ [ centerX, width <| maximum 300 fill, Font.size 20, Border.rounded 3, Font.color colors.gray2 ]) [ el [ centerX ] <| text "+1 (604) 245-8168" ]
                 ]
             ]
-        , row [ width fill, height fill ] (footer device)
         ]
     ]

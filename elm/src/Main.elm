@@ -2,17 +2,17 @@ module Main exposing (main)
 
 import Browser
 import Browser.Events as Events
-import Careers.Types
 import Contact.Types
 import FAQ.Types
 import Home.Types
+import Jobs.Types
 import Router.Types
 import Types exposing (Msg(..))
 import Update exposing (init, update)
 import View exposing (view)
 
 
-main : Program String Types.Model Types.Msg
+main : Program { article : Maybe String, gitVersion : String } Types.Model Types.Msg
 main =
     Browser.application
         { init = init
@@ -30,5 +30,5 @@ subscriptions _ =
         [ Events.onResize (\x y -> MsgForContact (Contact.Types.SetScreenSize x y))
         , Events.onResize (\x y -> MsgForHome (Home.Types.SetScreenSize x y))
         , Events.onResize (\x y -> MsgForFAQ (FAQ.Types.SetScreenSize x y))
-        , Events.onResize (\x y -> MsgForCareers (Careers.Types.SetScreenSize x y))
+        , Events.onResize (\x y -> MsgForJobs (Jobs.Types.SetScreenSize x y))
         ]

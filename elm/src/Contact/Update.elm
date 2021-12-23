@@ -2,7 +2,7 @@ module Contact.Update exposing (init, update)
 
 import Browser.Dom
 import Contact.Types exposing (Model, Msg(..))
-import Device exposing (classify)
+import Device exposing (Device(..), classify)
 import Return exposing (Return, return)
 import Task
 import Types
@@ -12,11 +12,7 @@ init : Return Msg Model
 init =
     return
         { topic = ""
-        , device =
-            classify
-                { height = 0
-                , width = 0
-                }
+        , device = NotSet
         }
         (Task.perform GotViewport Browser.Dom.getViewport)
 

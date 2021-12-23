@@ -2,8 +2,7 @@ module Home.View exposing (view)
 
 import Element
     exposing
-        ( DeviceClass
-        , Element
+        ( Element
         , alignLeft
         , alignRight
         , centerX
@@ -32,25 +31,24 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Home.Types exposing (Model, Msg)
-import Layout exposing (footer, header, layout)
+import Layout exposing (layout)
 import Router.Routes exposing (Page(..), toPath)
-import Styles exposing (buttons, colors, heading, textStyles)
+import Styles exposing (buttons, colors, heading)
 
 
 view : Model -> Element Msg
 view model =
-    column [ height fill, width fill ] (layout { phone = phoneLayout, tablet = tabletLayout, desktop = desktopLayout } model.device.class)
+    layout model.device { phone = phoneLayout, tablet = tabletLayout, desktop = desktopLayout }
 
 
-tabletLayout : DeviceClass -> List (Element msg)
-tabletLayout device =
+tabletLayout : List (Element msg)
+tabletLayout =
     [ column
         [ width fill
         , paddingXY 50 0
         , centerX
         ]
-        [ row [ width fill ] (header device)
-        , column [ width fill, height fill, paddingXY 0 50, spacing 20 ]
+        [ column [ width fill, height fill, paddingXY 0 50, spacing 20 ]
             [ column [ centerX, width fill, width (minimum 600 shrink) ]
                 [ row [ centerX ]
                     [ paragraph
@@ -59,10 +57,10 @@ tabletLayout device =
                     ]
                 , row [ centerX ]
                     [ paragraph
-                        (textStyles ++ [ padding 30, Font.center, width <| maximum 600 fill ])
+                        (Styles.paragraph ++ [ padding 30, Font.center, width <| maximum 600 fill ])
                         [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on any savings." ]
                     ]
-                , column ([ width fill, centerX ] ++ textStyles)
+                , column ([ width fill, centerX ] ++ Styles.paragraph)
                     [ link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
                         { url = toPath Contact, label = text "Get in touch" }
                     , link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.gray1 ] ] ++ buttons.secondary)
@@ -80,9 +78,9 @@ tabletLayout device =
             [ row [ width fill, centerX, alignLeft ] [ row (heading ++ [ centerX, Font.size 40 ]) [ text "How it works" ] ]
             , row [ width fill, padding 30, spacingXY 0 20, alignRight, centerX ]
                 [ column [ width fill, spacingXY 0 20, centerX ]
-                    [ row [ centerX ] [ paragraph (textStyles ++ [ width fill, width <| maximum 600 fill ]) [ text "1. Give us your shopping list (what you need)" ] ]
-                    , row [ centerX ] [ paragraph (textStyles ++ [ width fill, width <| maximum 600 fill ]) [ text "2. We compare wholesalers and find the most savings for you" ] ]
-                    , row [ centerX ] [ paragraph (textStyles ++ [ width fill, width <| maximum 600 fill ]) [ text "3. You approve, we buy, it's delivered" ] ]
+                    [ row [ centerX ] [ paragraph (Styles.paragraph ++ [ width fill, width <| maximum 600 fill ]) [ text "1. Give us your shopping list (what you need)" ] ]
+                    , row [ centerX ] [ paragraph (Styles.paragraph ++ [ width fill, width <| maximum 600 fill ]) [ text "2. We compare wholesalers and find the most savings for you" ] ]
+                    , row [ centerX ] [ paragraph (Styles.paragraph ++ [ width fill, width <| maximum 600 fill ]) [ text "3. You approve, we buy, it's delivered" ] ]
                     ]
                 ]
             ]
@@ -108,7 +106,7 @@ tabletLayout device =
                         }
                     ]
                 , paragraph (heading ++ [ Font.size 25, Font.center, paddingXY 0 20, height (minimum 80 fill) ]) [ text "Meats one stop shop" ]
-                , paragraph (textStyles ++ [ Font.center, padding 5, width fill, height (minimum 100 fill), width <| maximum 600 fill ]) [ text "Convenient ordering of all your meats from one place" ]
+                , paragraph (Styles.paragraph ++ [ Font.center, padding 5, width fill, height (minimum 100 fill), width <| maximum 600 fill ]) [ text "Convenient ordering of all your meats from one place" ]
                 ]
             , column
                 [ width fill
@@ -131,7 +129,7 @@ tabletLayout device =
                         }
                     ]
                 , paragraph (heading ++ [ Font.size 25, Font.center, paddingXY 0 20, height (minimum 80 fill) ]) [ text "Single Invoice and Payment" ]
-                , paragraph (textStyles ++ [ Font.center, padding 5, width fill, height (minimum 100 fill), width <| maximum 600 fill ]) [ text "Get a single itemized invoice for all your items" ]
+                , paragraph (Styles.paragraph ++ [ Font.center, padding 5, width fill, height (minimum 100 fill), width <| maximum 600 fill ]) [ text "Get a single itemized invoice for all your items" ]
                 ]
             , column
                 [ width fill
@@ -154,7 +152,7 @@ tabletLayout device =
                         }
                     ]
                 , paragraph (heading ++ [ Font.size 25, Font.center, paddingXY 0 20, height (minimum 80 fill) ]) [ text "Easy Refunds and Dispute Resolution" ]
-                , row [ centerX ] [ paragraph (textStyles ++ [ Font.center, padding 5, height (minimum 100 shrink), width <| maximum 600 fill ]) [ text "We'll make things right if there's something wrong with your order and represent you if the wholesaler drops the ball" ] ]
+                , row [ centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, padding 5, height (minimum 100 shrink), width <| maximum 600 fill ]) [ text "We'll make things right if there's something wrong with your order and represent you if the wholesaler drops the ball" ] ]
                 ]
             ]
         , row [ centerX, width fill, paddingXY 0 30 ]
@@ -169,7 +167,7 @@ tabletLayout device =
                                 }
                             ]
                         , column [ width fill, paddingXY 0 20 ]
-                            [ row ([ width (maximum 600 fill), centerX ] ++ textStyles) [ paragraph [ spacingXY 0 20, Font.center ] [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ] ]
+                            [ row ([ width (maximum 600 fill), centerX ] ++ Styles.paragraph) [ paragraph [ spacingXY 0 20, Font.center ] [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ] ]
                             , row [ centerX, paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ text " — Nicolas Haddad - Farmers Meal Catering" ]
                             ]
                         ]
@@ -183,7 +181,7 @@ tabletLayout device =
                                 }
                             ]
                         , column [ width fill, paddingXY 0 20 ]
-                            [ row ([ width (maximum 600 fill), centerX ] ++ textStyles) [ paragraph [ Font.center, spacingXY 0 20 ] [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ] ]
+                            [ row ([ width (maximum 600 fill), centerX ] ++ Styles.paragraph) [ paragraph [ Font.center, spacingXY 0 20 ] [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ] ]
                             , row [ centerX, paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ text " — Alaia Fayad – Grass Roots Meal Prep" ]
                             ]
                         ]
@@ -197,20 +195,18 @@ tabletLayout device =
                     { url = toPath Contact, label = text "Get in touch" }
                 ]
             ]
-        , row [ width fill ] (footer device)
         ]
     ]
 
 
-phoneLayout : DeviceClass -> List (Element msg)
-phoneLayout device =
+phoneLayout : List (Element msg)
+phoneLayout =
     [ column
         [ width fill
         , paddingXY 30 0
         , spacingXY 0 20
         ]
-        [ row [ width fill ] (header device)
-        , column [ width fill, height fill, paddingXY 0 50, spacing 20 ]
+        [ column [ width fill, height fill, paddingXY 0 50, spacing 20 ]
             [ column [ width fill ]
                 [ row [ centerX, paddingXY 10 0 ]
                     [ paragraph
@@ -218,9 +214,9 @@ phoneLayout device =
                         [ text "Competitive prices without any hassle" ]
                     ]
                 , paragraph
-                    (textStyles ++ [ Font.center, paddingXY 0 40, width fill ])
+                    (Styles.paragraph ++ [ Font.center, paddingXY 0 40, width fill ])
                     [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on any savings." ]
-                , column ([ width fill, centerX ] ++ textStyles)
+                , column ([ width fill, centerX ] ++ Styles.paragraph)
                     [ link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
                         { url = toPath Contact, label = text "Get in touch" }
                     , link ([ width fill, centerX, width (maximum 200 fill), Font.center, mouseOver [ Background.color colors.gray1 ] ] ++ buttons.secondary)
@@ -238,9 +234,9 @@ phoneLayout device =
             [ row [ width fill, centerX, alignLeft ] [ row (heading ++ [ centerX, Font.size 40 ]) [ text "How it works" ] ]
             , row [ width fill, padding 30, spacingXY 0 20, alignRight ]
                 [ column [ width fill, spacingXY 0 20 ]
-                    [ row [ centerX ] [ paragraph (textStyles ++ [ Font.center, width fill ]) [ text "1. Give us your shopping list (what you need)" ] ]
-                    , row [ centerX ] [ paragraph (textStyles ++ [ Font.center, width fill ]) [ text "2. We compare wholesalers and find the most savings for you" ] ]
-                    , row [ centerX ] [ paragraph (textStyles ++ [ Font.center, width fill ]) [ text "3. You approve, we buy, it's delivered" ] ]
+                    [ row [ centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, width fill ]) [ text "1. Give us your shopping list (what you need)" ] ]
+                    , row [ centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, width fill ]) [ text "2. We compare wholesalers and find the most savings for you" ] ]
+                    , row [ centerX ] [ paragraph (Styles.paragraph ++ [ Font.center, width fill ]) [ text "3. You approve, we buy, it's delivered" ] ]
                     ]
                 ]
             ]
@@ -266,7 +262,7 @@ phoneLayout device =
                         }
                     ]
                 , paragraph (heading ++ [ Font.size 25, Font.center, paddingXY 0 20 ]) [ text "Meats one stop shop" ]
-                , paragraph (textStyles ++ [ Font.center, padding 5, height (minimum 100 fill) ]) [ text "Convenient ordering of all your meats from one place" ]
+                , paragraph (Styles.paragraph ++ [ Font.center, padding 5, height (minimum 100 fill) ]) [ text "Convenient ordering of all your meats from one place" ]
                 ]
             , column
                 [ width fill
@@ -289,7 +285,7 @@ phoneLayout device =
                         }
                     ]
                 , paragraph (heading ++ [ Font.size 25, Font.center, paddingXY 0 20 ]) [ text "Single Invoice and Payment" ]
-                , paragraph (textStyles ++ [ Font.center, padding 5, height (minimum 100 fill) ]) [ text "Get a single itemized invoice for all your items" ]
+                , paragraph (Styles.paragraph ++ [ Font.center, padding 5, height (minimum 100 fill) ]) [ text "Get a single itemized invoice for all your items" ]
                 ]
             , column
                 [ width fill
@@ -319,7 +315,7 @@ phoneLayout device =
                            ]
                     )
                     [ text "Easy Refunds and Dispute Resolution" ]
-                , row [ centerX, width fill ] [ paragraph (textStyles ++ [ Font.center, padding 5, height (minimum 100 fill) ]) [ text "We'll make things right if there's something wrong with your order and represent you if the wholesaler drops the ball" ] ]
+                , row [ centerX, width fill ] [ paragraph (Styles.paragraph ++ [ Font.center, padding 5, height (minimum 100 fill) ]) [ text "We'll make things right if there's something wrong with your order and represent you if the wholesaler drops the ball" ] ]
                 ]
             ]
         , row [ centerX, width fill, paddingXY 0 30 ]
@@ -334,7 +330,7 @@ phoneLayout device =
                                 }
                             ]
                         , column [ width fill, paddingXY 0 20 ]
-                            [ row [ width (maximum 400 fill), centerX ] [ paragraph ([ spacingXY 0 20, Font.center ] ++ textStyles) [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ] ]
+                            [ row [ width (maximum 400 fill), centerX ] [ paragraph ([ spacingXY 0 20, Font.center ] ++ Styles.paragraph) [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ] ]
                             , row [ centerX, paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ paragraph [] [ text "Nicolas Haddad" ] ]
                             ]
                         ]
@@ -348,7 +344,7 @@ phoneLayout device =
                                 }
                             ]
                         , column [ width fill, paddingXY 0 20 ]
-                            [ row [ width (maximum 400 fill), centerX ] [ paragraph ([ spacingXY 0 20, Font.center ] ++ textStyles) [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ] ]
+                            [ row [ width (maximum 400 fill), centerX ] [ paragraph ([ spacingXY 0 20, Font.center ] ++ Styles.paragraph) [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ] ]
                             , column [ centerX, paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ paragraph [] [ text "Alaia Fayad" ] ]
                             ]
                         ]
@@ -362,29 +358,26 @@ phoneLayout device =
                     { url = toPath Contact, label = text "Get in touch" }
                 ]
             ]
-        , column [ centerX ] (footer device)
         ]
     ]
 
 
-desktopLayout : DeviceClass -> List (Element msg)
-desktopLayout device =
+desktopLayout : List (Element msg)
+desktopLayout =
     [ column
         [ width fill
         , height fill
-        , paddingXY 100 0
         , centerX
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, paddingXY 0 80, spacing 10 ]
+        [ row [ width fill, paddingXY 0 80, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink) ]
                 [ paragraph
                     heading
                     [ text "Competitive prices without any hassle" ]
                 , paragraph
-                    (textStyles ++ [ paddingXY 0 40 ])
+                    (Styles.paragraph ++ [ paddingXY 0 40 ])
                     [ text "Flint is a local buying collective and purchasing service for chefs in the Greater Vancouver area. We compare dozens of wholesalers to get exactly what you need so you don't miss out on any savings." ]
-                , row (width fill :: textStyles)
+                , row (width fill :: Styles.paragraph)
                     [ link ([ Font.center, width fill, width (maximum 200 fill), mouseOver [ Background.color colors.orange2 ] ] ++ buttons.primary)
                         { url = toPath Contact, label = text "Get in touch" }
                     , link ([ Font.center, width fill, width (maximum 200 fill), mouseOver [ Background.color colors.gray1 ] ] ++ buttons.secondary)
@@ -400,9 +393,9 @@ desktopLayout device =
             ]
         , column [ width fill, paddingXY 0 100, spacingXY 0 10 ]
             [ row [ width fill, width (minimum 600 shrink) ] [ row heading [ text "How it works" ] ]
-            , row [] [ paragraph (textStyles ++ [ paddingXY 5 0, width fill ]) [ text "1. Give us your shopping list (what you need)" ] ]
-            , row [] [ paragraph (textStyles ++ [ paddingXY 5 0, width fill ]) [ text "2. We compare wholesalers and find the most savings for you" ] ]
-            , row [] [ paragraph (textStyles ++ [ paddingXY 5 0, width fill ]) [ text "3. You approve, we buy, it's delivered" ] ]
+            , row [] [ paragraph (Styles.paragraph ++ [ paddingXY 5 0, width fill ]) [ text "1. Give us your shopping list (what you need)" ] ]
+            , row [] [ paragraph (Styles.paragraph ++ [ paddingXY 5 0, width fill ]) [ text "2. We compare wholesalers and find the most savings for you" ] ]
+            , row [] [ paragraph (Styles.paragraph ++ [ paddingXY 5 0, width fill ]) [ text "3. You approve, we buy, it's delivered" ] ]
             ]
         , row [ width fill, paddingXY 0 100, spacingXY 70 0 ]
             [ column
@@ -424,7 +417,7 @@ desktopLayout device =
                         }
                     ]
                 , paragraph [ Font.size 25, Font.center, paddingXY 0 20, height (minimum 100 fill) ] [ text "Meats one stop shop" ]
-                , paragraph (textStyles ++ [ Font.center, height (minimum 100 fill) ]) [ text "Convenient ordering of all your meats from one place" ]
+                , paragraph (Styles.paragraph ++ [ Font.center, height (minimum 100 fill) ]) [ text "Convenient ordering of all your meats from one place" ]
                 ]
             , column
                 [ width fill
@@ -445,7 +438,7 @@ desktopLayout device =
                         }
                     ]
                 , paragraph [ Font.size 25, Font.center, paddingXY 0 20, height (minimum 100 fill) ] [ text "Single Invoice and Payment" ]
-                , paragraph (textStyles ++ [ Font.center, height (minimum 100 fill) ]) [ text "Get a single itemized invoice for all your items" ]
+                , paragraph (Styles.paragraph ++ [ Font.center, height (minimum 100 fill) ]) [ text "Get a single itemized invoice for all your items" ]
                 ]
             , column
                 [ width fill
@@ -466,7 +459,7 @@ desktopLayout device =
                         }
                     ]
                 , paragraph [ Font.size 25, Font.center, paddingXY 0 20, height (minimum 100 fill) ] [ text "Easy Refunds and Dispute Resolution" ]
-                , paragraph (textStyles ++ [ Font.center, height (minimum 100 shrink) ]) [ text "We'll make things right if there's something wrong with your order and represent you if the wholesaler drops the ball" ]
+                , paragraph (Styles.paragraph ++ [ Font.center, height (minimum 100 shrink) ]) [ text "We'll make things right if there's something wrong with your order and represent you if the wholesaler drops the ball" ]
                 ]
             ]
         , row [ width fill, paddingXY 0 100, spacing 10, width <| minimum 1000 fill ]
@@ -480,7 +473,7 @@ desktopLayout device =
                             }
                         ]
                     , column [ width fill, paddingEach { top = 0, bottom = 0, left = 20, right = 0 }, centerX ]
-                        [ paragraph (textStyles ++ [ spacingXY 0 10, width <| minimum 900 fill, width fill ]) [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ]
+                        [ paragraph (Styles.paragraph ++ [ spacingXY 0 10, width <| minimum 900 fill, width fill ]) [ text "\"I used to spend 4-8 hours each week comparing prices and placing orders. In my first week with buying through Flint, I saved over 20%! With Flint, I have full peace of mind every week that I don't miss out on any savings.\"" ]
                         , row [ paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ text " — Nicolas Haddad - Farmers Meal Catering" ]
                         ]
                     ]
@@ -492,7 +485,7 @@ desktopLayout device =
                             }
                         ]
                     , column [ width fill, paddingEach { top = 0, bottom = 0, left = 20, right = 0 }, centerX ]
-                        [ paragraph (textStyles ++ [ spacingXY 0 10, width <| minimum 900 fill, width fill ]) [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ]
+                        [ paragraph (Styles.paragraph ++ [ spacingXY 0 10, width <| minimum 900 fill, width fill ]) [ text "\"Flint has been a great partner! I find the quality I am looking for at a price much lower than I can get by myself. I will save roughly $6000 or 20% this year!\"" ]
                         , row [ paddingXY 0 20, Font.color colors.orange1, Font.bold ] [ text " — Alaia Fayad - Grass Roots Meal Prep" ]
                         ]
                     ]
@@ -503,6 +496,5 @@ desktopLayout device =
             , link (buttons.primary ++ [ alignLeft, padding 15, mouseOver [ Background.color colors.orange2 ] ])
                 { url = toPath Contact, label = text "Get in touch" }
             ]
-        , row [ width fill, height fill ] (footer device)
         ]
     ]

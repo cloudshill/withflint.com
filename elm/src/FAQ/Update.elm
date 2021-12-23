@@ -1,7 +1,7 @@
 module FAQ.Update exposing (init, update)
 
 import Browser.Dom
-import Device exposing (classify)
+import Device exposing (Device(..), classify)
 import FAQ.Types exposing (Model, Msg(..))
 import Return exposing (Return, return)
 import Task
@@ -12,11 +12,7 @@ init : Return Msg Model
 init =
     return
         { topic = ""
-        , device =
-            classify
-                { height = 0
-                , width = 0
-                }
+        , device = NotSet
         }
         (Task.perform GotViewport Browser.Dom.getViewport)
 

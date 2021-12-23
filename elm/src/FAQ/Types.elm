@@ -1,7 +1,7 @@
 module FAQ.Types exposing (Model, Msg(..))
 
 import Browser.Dom exposing (Viewport)
-import Element exposing (Device)
+import Device exposing (Device)
 
 
 type alias Model =

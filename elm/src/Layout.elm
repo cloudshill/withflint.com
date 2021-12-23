@@ -1,12 +1,13 @@
-module Layout exposing (footer, header, layout)
+module Layout exposing (footer, layout, topMenu)
 
+import Device exposing (Device(..))
 import Element
     exposing
-        ( DeviceClass(..)
-        , Element
+        ( Element
         , alignBottom
         , alignLeft
         , alignRight
+        , alignTop
         , centerX
         , centerY
         , column
@@ -15,6 +16,7 @@ import Element
         , height
         , image
         , link
+        , maximum
         , newTabLink
         , padding
         , paddingEach
@@ -27,23 +29,72 @@ import Element
         )
 import Element.Font as Font
 import Router.Routes exposing (Page(..), toPath)
-import Styles exposing (textStyles)
+import Styles
 
 
-layout : { a | phone : DeviceClass -> b, tablet : DeviceClass -> b, desktop : DeviceClass -> b } -> DeviceClass -> b
-layout views device =
+topMenu : List ( Page, String )
+topMenu =
+    [ ( Home, "Home" )
+    , ( FAQ, "FAQ" )
+    , ( Contact, "Contact" )
+    , ( Jobs, "Jobs" )
+    ]
+
+
+fillxy : List (Element.Attribute msg)
+fillxy =
+    [ height fill, width fill, alignTop ]
+
+
+layout : Device -> { a | phone : List (Element msg), tablet : List (Element msg), desktop : List (Element msg) } -> Element msg
+layout device views =
     case device of
         Phone ->
-            views.phone device
+            column
+                (fillxy
+                    ++ [ centerX
+                       , alignTop
+                       , width fill
+                       , height fill
+                       ]
+                )
+                [ row [ width fill, paddingXY 20 40 ] (header device)
+                , row fillxy views.phone
+                , column [ width fill ] (footer device)
+                ]
 
         Tablet ->
-            views.tablet device
+            column
+                (fillxy
+                    ++ [ centerX
+                       , alignTop
+                       , paddingXY 100 40
+                       , width <| maximum 1500 fill
+                       , height fill
+                       ]
+                )
+                [ row [ width fill ] (header device)
+                , row fillxy views.tablet
+                , row [ width fill ] (footer device)
+                ]
 
         _ ->
-            views.desktop device
+            column
+                (fillxy
+                    ++ [ centerX
+                       , alignTop
+                       , paddingXY 100 40
+                       , width <| maximum 1500 fill
+                       , height fill
+                       ]
+                )
+                [ row [ width fill ] (header device)
+                , row fillxy views.desktop
+                , row [ width fill ] (footer device)
+                ]
 
 
-header : DeviceClass -> List (Element msg)
+header : Device -> List (Element msg)
 header device =
     case device of
         Phone ->
@@ -66,30 +117,22 @@ header device =
                         }
                     ]
                 , column [ width fill, alignRight ]
-                    [ column (width fill :: textStyles)
+                    [ column (width fill :: Styles.paragraph)
                         [ row [ spacingXY 30 0, alignRight ]
-                            [ row [] [ link [ padding 5 ] { url = toPath Home, label = text "Home" } ]
-                            , row [] [ link [ padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
-                            , row [] [ link [ padding 5 ] { url = toPath Contact, label = text "Contact" } ]
-                            , row [] [ link [ padding 5 ] { url = toPath Careers, label = text "Careers" } ]
-                            ]
+                            (topMenu |> List.map (\( path, label ) -> row [] [ link [ padding 5 ] { url = toPath path, label = text label } ]))
                         ]
                     ]
                 ]
             ]
 
 
-footer : DeviceClass -> List (Element msg)
+footer : Device -> List (Element msg)
 footer device =
     case device of
         Phone ->
             [ row [ width fill, centerX, paddingXY 0 50 ]
-                [ column ([ centerX, width fill, spacingXY 50 20, centerX, Font.size 15 ] ++ textStyles)
-                    [ row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath Home, label = text "Home" } ]
-                    , row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath FAQ, label = text "FAQ" } ]
-                    , row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath Contact, label = text "Contact" } ]
-                    , row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath Careers, label = text "Careers" } ]
-                    ]
+                [ column ([ centerX, width fill, spacingXY 50 20, centerX, Font.size 15 ] ++ Styles.paragraph)
+                    (topMenu |> List.map (\( path, label ) -> row [ width fill, centerX ] [ link [ centerX, padding 5 ] { url = toPath path, label = text label } ]))
                 ]
             , row [ width fill, centerX ]
                 [ column [ width fill, alignBottom ]
@@ -125,7 +168,7 @@ footer device =
                     , description = "Flint"
                     }
                 ]
-            , row [ centerX, width fill, Font.size 10 ]
+            , row [ centerX, width fill, Font.size 10, paddingXY 0 10 ]
                 [ el [ centerX ] <| text "© 2021 Flint, all rights reserved" ]
             ]
 
@@ -141,7 +184,7 @@ footer device =
                             , description = "Flint"
                             }
                         ]
-                    , row [ width fill, Font.size 10 ]
+                    , row [ width fill, Font.size 10, paddingXY 0 10 ]
                         [ text "© 2021 Flint, all rights reserved" ]
                     ]
                 , column [ width fill, alignBottom, alignRight ]

@@ -1,11 +1,11 @@
-module Careers.Update exposing (init, update)
+module Jobs.Update exposing (init, update)
 
 import Browser.Dom
-import Careers.Types exposing (ApplicationStatus(..), Field(..), Job, JobsStatus(..), Model, Msg(..), SubmissionMessage(..))
-import Device exposing (classify)
+import Device exposing (Device(..), classify)
 import Dict
 import File.Select as Select
 import Http
+import Jobs.Types exposing (ApplicationStatus(..), Field(..), Job, JobsStatus(..), Model, Msg(..), SubmissionMessage(..))
 import Json.Decode as D
 import Maybe exposing (withDefault)
 import Return exposing (Return, return)
@@ -13,41 +13,12 @@ import Task
 import Types
 
 
-defaulToEmptyString : Maybe String -> String
-defaulToEmptyString =
-    withDefault ""
-
-
-parseJobs : List (Maybe String) -> Job
-parseJobs list =
-    case list of
-        [ url, title, location, equity, experience ] ->
-            { url = url |> defaulToEmptyString
-            , title = title |> defaulToEmptyString
-            , location = location |> defaulToEmptyString
-            , equity = equity |> defaulToEmptyString
-            , experience = experience |> defaulToEmptyString
-            }
-
-        _ ->
-            { url = ""
-            , title = ""
-            , location = ""
-            , equity = ""
-            , experience = ""
-            }
-
-
 init : String -> Return Msg Model
 init gitVersion =
     return
         { jobs = Loading
         , gitVersion = gitVersion
-        , device =
-            classify
-                { height = 0
-                , width = 0
-                }
+        , device = NotSet
         , applicant =
             { firstName = Empty
             , lastName = Empty
@@ -68,7 +39,7 @@ init gitVersion =
 update : Types.Msg -> Model -> Return Msg Model
 update msgFor model =
     case msgFor of
-        Types.MsgForCareers msg ->
+        Types.MsgForJobs msg ->
             updateCareers msg model
 
         _ ->
@@ -138,15 +109,18 @@ updateCareers msg model =
         Update model_ ->
             return model_ Cmd.none
 
-        LoadCurrentPage model_ ->
-            return model_ (Task.perform (\_ -> Update model_) (Browser.Dom.setViewport 0 0))
+        UpdateAndScrollToTop model_ ->
+            return model_ (Task.perform (\_ -> NoOp) (Browser.Dom.setViewport 0 0))
 
         UploadResume ->
             return model (Select.file [ "docx", "pdf", "doc", "*" ] Resume)
 
+        NoOp ->
+            return model Cmd.none
+
         Resume file ->
             let
-                applicant : Careers.Types.Applicant
+                applicant : Jobs.Types.Applicant
                 applicant =
                     model.applicant
             in
@@ -171,7 +145,7 @@ updateCareers msg model =
                         )
                         [ model.applicant.firstName, model.applicant.lastName, model.applicant.email, model.applicant.phone, model.applicant.reason ]
 
-                applicant : Careers.Types.Applicant
+                applicant : Jobs.Types.Applicant
                 applicant =
                     model.applicant
             in
@@ -260,3 +234,28 @@ invalidIfEmpty field =
 
         _ ->
             field
+
+
+defaulToEmptyString : Maybe String -> String
+defaulToEmptyString =
+    withDefault ""
+
+
+parseJobs : List (Maybe String) -> Job
+parseJobs list =
+    case list of
+        [ url, title, location, equity, experience ] ->
+            { url = url |> defaulToEmptyString
+            , title = title |> defaulToEmptyString
+            , location = location |> defaulToEmptyString
+            , equity = equity |> defaulToEmptyString
+            , experience = experience |> defaulToEmptyString
+            }
+
+        _ ->
+            { url = ""
+            , title = ""
+            , location = ""
+            , equity = ""
+            , experience = ""
+            }

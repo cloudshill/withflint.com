@@ -19,8 +19,6 @@ module Program =
     open FSharp.Control.Tasks.Affine
     open FSharp.Text.RegexProvider
 
-    open Memoization
-
     type Job =
         { Url: String
           Title: String
@@ -32,17 +30,54 @@ module Program =
         Regex< @"(?<Url>https://www.ycombinator.com/companies/flint/jobs/[^""]+)"">(?<Title>[^<]+)</a></div><div class=""job-details""><div class=""job-detail"">(?<Location>[^<]+)</div><div class=""job-detail"">(?<Equity>[^<]+)</div><div class=""job-detail"">(?<Experience>[^<]+)" >
 
     let jobs =
-        memoize (fun (url) ->
-            Http.RequestString(url)
-            |> JobRegex().TypedMatches
-            |> Seq.map (fun m ->
-                ({ Url = m.Url.Value
-                   Title = m.Title.Value
-                   Location = m.Location.Value
-                   Equity = m.Equity.Value
-                   Experience = m.Experience.Value }))
-            |> Seq.sortBy (fun job -> job.Title)
-            |> json)
+        Http.RequestString("https://www.ycombinator.com/companies/flint")
+        |> JobRegex().TypedMatches
+        |> Seq.map (fun m ->
+            ({ Url = m.Url.Value
+               Title = m.Title.Value
+               Location = m.Location.Value
+               Equity = m.Equity.Value
+               Experience = m.Experience.Value }))
+        |> Seq.sortBy (fun job -> job.Title)
+        |> json
+
+    type Article =
+        { Author: String
+          Title: String
+          Link: String
+          Date: String
+          Image: String
+          Body: String
+          Sub: String
+          Slug: String }
+
+    let root =
+        Directory.GetParent(Directory.GetCurrentDirectory())
+
+    let lines path =
+        seq { yield! System.IO.File.ReadLines path }
+        |> Seq.toList
+
+    let parseArticle =
+        function
+        | (author :: sub :: link :: date :: image :: slug :: _ :: title :: _ :: body) ->
+            Some
+                { Author = author
+                  Title = title
+                  Link = link
+                  Date = date
+                  Image = image
+                  Body = String.concat "\n" <| body
+                  Sub = sub
+                  Slug = slug }
+        | _ -> None
+
+    let articles =
+        Directory.GetFiles($"{root}/blog/", "*.md")
+        |> Seq.toList
+        |> List.map (lines >> parseArticle)
+        |> List.choose id
+        |> json
 
     let healthz () =
         let env =
@@ -55,9 +90,11 @@ module Program =
 
         $"Ok,{env},{gv},{now}"
 
+    let blogs =
+        fun (next: HttpFunc) (ctx: HttpContext) -> task { return! articles next ctx }
+
     let yc =
-        fun (next: HttpFunc) (ctx: HttpContext) ->
-            task { return! (jobs ("https://www.ycombinator.com/companies/flint")) next ctx }
+        fun (next: HttpFunc) (ctx: HttpContext) -> task { return! jobs next ctx }
 
     let apply =
         fun (next: HttpFunc) (ctx: HttpContext) ->
@@ -101,21 +138,21 @@ module Program =
 
                 smtpClient.EnableSsl <- true
 
-                use careers =
-                    MailMessage("careers+ws@withflint.com", "careers+ws@withflint.com")
+                use jobs =
+                    MailMessage("jobs+ws@withflint.com", "jobs+ws@withflint.com")
 
                 attachments
                 |> List.iter (fun (contents, contentType, fileName) ->
-                    careers.Attachments.Add(Attachment(contents, fileName, contentType)))
+                    jobs.Attachments.Add(Attachment(contents, fileName, contentType)))
 
-                careers.Subject <-
+                jobs.Subject <-
                     $"Flint - New Application : {formData.firstName} {formData.lastName}, {formData.applicationTitle}"
 
-                careers.Body <- body
-                careers.IsBodyHtml <- true
-                careers.ReplyToList.Add(formData.email)
+                jobs.Body <- body
+                jobs.IsBodyHtml <- true
+                jobs.ReplyToList.Add(formData.email)
 
-                smtpClient.Send(careers)
+                smtpClient.Send(jobs)
 
                 attachments
                 |> List.iter (fun (stream, _, _) -> stream.Dispose())
@@ -138,19 +175,21 @@ module Program =
         choose [ GET
                  >=> choose [ route "/" >=> htmlFile "../index.html"
                               route "/yc" >=> yc
+                              route "/careers" >=> redirectTo true "/jobs"
+                              subRoute
+                                  "/blog"
+                                  (choose [ route "" >=> htmlFile "../index.html"
+                                            routef "/%s" (fun _ -> htmlFile "../index.html") ])
+                              route "/articles" >=> blogs
                               route "/healthz" >=> text (healthz ()) ]
                  POST >=> choose [ route "/apply" >=> apply ]
                  setStatusCode 200 >=> htmlFile "../index.html" ]
 
-    let getDirectory () =
+    let configureApp (app: IApplicationBuilder) =
         let path =
             Path.Combine(Directory.GetCurrentDirectory(), @"../static")
 
         use provider = PhysicalFileProvider(path)
-        provider
-
-    let configureApp (app: IApplicationBuilder) =
-        let fileProvider = getDirectory ()
 
         app
             .UseRewriter(
@@ -158,7 +197,7 @@ module Program =
                     .AddRewrite("favicon.ico", "static/favicon.ico", false)
             )
             .UseDefaultFiles()
-            .UseStaticFiles(StaticFileOptions(FileProvider = fileProvider, RequestPath = PathString("/static")))
+            .UseStaticFiles(StaticFileOptions(FileProvider = provider, RequestPath = PathString("/static")))
             .UseGiraffe(webApp)
 
     let configureServices (services: IServiceCollection) = services.AddGiraffe() |> ignore

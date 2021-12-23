@@ -2,8 +2,7 @@ module FAQ.View exposing (view)
 
 import Element
     exposing
-        ( DeviceClass
-        , Element
+        ( Element
         , centerX
         , column
         , fill
@@ -24,8 +23,8 @@ import Element
 import Element.Border as Border
 import Element.Font as Font
 import FAQ.Types exposing (Model, Msg)
-import Layout exposing (footer, header, layout)
-import Styles exposing (colors, heading, textStyles)
+import Layout exposing (layout)
+import Styles exposing (colors, heading)
 
 
 data : List ( String, String )
@@ -68,18 +67,17 @@ data =
 
 view : Model -> Element Msg
 view model =
-    column [ height fill, width fill ] (layout { phone = phoneLayout, tablet = tabletLayout, desktop = desktopLayout } model.device.class)
+    layout model.device { phone = phoneLayout, tablet = tabletLayout, desktop = desktopLayout }
 
 
-phoneLayout : DeviceClass -> List (Element msg)
-phoneLayout device =
+phoneLayout : List (Element msg)
+phoneLayout =
     [ column
         [ width fill
         , paddingXY 30 0
         , spacingXY 0 20
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 50 ]
+        [ row [ width fill, height fill, paddingXY 0 50 ]
             [ column [ centerX, width fill ]
                 [ row
                     (heading ++ [ centerX ])
@@ -103,24 +101,22 @@ phoneLayout device =
                         , spacingXY 0 20
                         ]
                         [ paragraph (heading ++ [ padding 10, Font.color colors.orange1, Font.size 20 ]) [ text <| ques ]
-                        , paragraph (padding 10 :: textStyles) [ text <| answer ]
+                        , paragraph (padding 10 :: Styles.paragraph) [ text <| answer ]
                         ]
                 )
                 data
             )
-        , column [ width fill ] (footer device)
         ]
     ]
 
 
-tabletLayout : DeviceClass -> List (Element msg)
-tabletLayout device =
+tabletLayout : List (Element msg)
+tabletLayout =
     [ column
         [ width fill
         , paddingXY 50 0
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 50 ]
+        [ row [ width fill, height fill, paddingXY 0 50 ]
             [ column [ centerX, width fill, width (minimum 600 shrink) ]
                 [ row
                     (heading ++ [ centerX ])
@@ -146,26 +142,23 @@ tabletLayout device =
                         , spacingXY 0 20
                         ]
                         [ paragraph (heading ++ [ padding 10, Font.color colors.orange1, Font.size 20 ]) [ text <| ques ]
-                        , paragraph (paddingEach { left = 50, top = 10, bottom = 10, right = 0 } :: textStyles) [ text <| answer ]
+                        , paragraph (paddingEach { left = 50, top = 10, bottom = 10, right = 0 } :: Styles.paragraph) [ text <| answer ]
                         ]
                 )
                 data
             )
-        , row [ width fill ] (footer device)
         ]
     ]
 
 
-desktopLayout : DeviceClass -> List (Element msg)
-desktopLayout device =
+desktopLayout : List (Element msg)
+desktopLayout =
     [ column
         [ width fill
         , height fill
-        , paddingXY 100 0
         , centerX
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, paddingXY 0 100, spacing 10 ]
+        [ row [ width fill, paddingXY 0 100, spacing 10 ]
             [ column [ width fill, width (minimum 600 shrink), width fill, centerX ]
                 [ paragraph
                     heading
@@ -192,12 +185,11 @@ desktopLayout device =
                             , centerX
                             ]
                             [ row (heading ++ [ Font.color colors.orange1, Font.size 20 ]) [ text <| ques ]
-                            , paragraph (paddingEach { left = 50, top = 0, bottom = 0, right = 0 } :: textStyles) [ text <| answer ]
+                            , paragraph (paddingEach { left = 50, top = 0, bottom = 0, right = 0 } :: Styles.paragraph) [ text <| answer ]
                             ]
                     )
                     data
                 )
             ]
-        , row [ width fill, height fill ] (footer device)
         ]
     ]

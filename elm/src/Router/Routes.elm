@@ -1,6 +1,6 @@
 module Router.Routes exposing (Page(..), routes, toPath)
 
-import Url.Parser exposing (Parser, map, oneOf, s, top)
+import Url.Parser exposing ((</>), Parser, map, oneOf, s, string, top)
 
 
 type Page
@@ -8,7 +8,8 @@ type Page
     | NotFound
     | Contact
     | FAQ
-    | Careers
+    | Jobs
+    | Blog String
 
 
 routes : Parser (Page -> a) a
@@ -18,7 +19,9 @@ routes =
         , map NotFound (s "404")
         , map Contact (s "contact")
         , map FAQ (s "faq")
-        , map Careers (s "careers")
+        , map Jobs (s "jobs")
+        , map (Blog "") (s "blog")
+        , map Blog (s "blog" </> string)
         ]
 
 
@@ -37,5 +40,8 @@ toPath page =
         FAQ ->
             "/faq"
 
-        Careers ->
-            "/careers"
+        Jobs ->
+            "/jobs"
+
+        Blog path ->
+            "/blog/" ++ path

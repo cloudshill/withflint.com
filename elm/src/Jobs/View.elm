@@ -1,10 +1,9 @@
-module Careers.View exposing (view)
+module Jobs.View exposing (view)
 
-import Careers.Types exposing (ApplicationStatus(..), Field(..), Job, JobsStatus(..), Model, Msg(..), SubmissionMessage(..))
+import Device exposing (Device(..))
 import Element
     exposing
-        ( DeviceClass(..)
-        , Element
+        ( Element
         , alignLeft
         , alignRight
         , alignTop
@@ -16,6 +15,7 @@ import Element
         , height
         , image
         , inFront
+        , link
         , maximum
         , minimum
         , mouseOver
@@ -26,7 +26,6 @@ import Element
         , paragraph
         , px
         , row
-        , scrollbarY
         , shrink
         , spacing
         , spacingXY
@@ -38,18 +37,213 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import File
-import Layout exposing (footer, header, layout)
+import Jobs.Types
+    exposing
+        ( ApplicationStatus(..)
+        , Field(..)
+        , Job
+        , JobsStatus(..)
+        , Model
+        , Msg(..)
+        , SubmissionMessage(..)
+        )
+import Layout exposing (footer, topMenu)
 import List
 import Regex
+import Router.Routes exposing (Page(..), toPath)
 import Styles exposing (buttons, colors, form, heading)
 
 
 view : Model -> Element Msg
 view model =
-    column [ height fill, width fill ] (layout { phone = phoneLayout, tablet = tabletLayout, desktop = desktopLayout } model.device.class model)
+    layout
+        { phone = phoneLayout model
+        , tablet = tabletLayout model
+        , desktop = desktopLayout model
+        }
+        model.device
+        model
 
 
-phoneView : DeviceClass -> Job -> Model -> Element Msg
+header : Device -> List (Element msg)
+header device =
+    case device of
+        Phone ->
+            [ row
+                [ width <| maximum 1500 fill
+                , paddingXY 0 40
+                , centerX
+                ]
+                [ Element.link
+                    []
+                    { url = toPath Home
+                    , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/static/images/logo-white.svg", description = "Flint" }
+                    }
+                ]
+            ]
+
+        _ ->
+            [ row
+                [ width <| maximum 1300 fill
+                , paddingXY 0 40
+                , centerX
+                ]
+                [ column [ width fill ]
+                    [ Element.link
+                        []
+                        { url = toPath Home
+                        , label = Element.image [ centerY, alignLeft, width (px 100), height (px 50) ] { src = "/static/images/logo-white.svg", description = "Flint" }
+                        }
+                    ]
+                , column [ width fill, alignRight ]
+                    [ column (width fill :: Styles.paragraph)
+                        [ row [ spacingXY 30 0, alignRight ]
+                            (topMenu |> List.map (\( path, label ) -> row [] [ link [ padding 5, Font.color colors.white3 ] { url = toPath path, label = text label } ]))
+                        ]
+                    ]
+                ]
+            ]
+
+
+layout : { a | phone : Device -> List (Element Msg), desktop : Device -> List (Element Msg) } -> Device -> Model -> Element Msg
+layout views device model =
+    column
+        (fillxy
+            ++ [ centerX
+               , alignTop
+               , height fill
+               ]
+        )
+        (case device of
+            Phone ->
+                [ row [ width fill, Background.color colors.orange2, paddingXY 30 0 ] (header device)
+                , row
+                    [ width fill, height fill ]
+                    [ column [ width fill, height fill ]
+                        [ row [ width fill, Background.color colors.orange2, padding 50 ]
+                            [ column [ width fill, spacing 30 ]
+                                [ paragraph
+                                    [ width fill
+                                    , centerX
+                                    , centerY
+                                    , Font.center
+                                    , height (minimum 50 shrink)
+                                    , Font.color colors.white3
+                                    , Styles.headFont
+                                    , Font.size 40
+                                    ]
+                                    [ text "Work at Flint" ]
+                                ]
+                            ]
+                        , row
+                            [ width fill
+                            , paddingXY 20 20
+                            , centerX
+                            ]
+                            [ column [ width fill, spacing 30 ]
+                                [ row [ width fill ]
+                                    [ column
+                                        [ width fill
+                                        , centerX
+                                        , spacing 30
+                                        ]
+                                        [ paragraph [ Styles.headFont, Font.size 24 ] [ text "We work with the very best." ]
+                                        , row [ width fill ]
+                                            [ column [] [ paragraph Styles.paragraph [ text "At Flint, we're committed to hiring the best people to build our teams. Building great products takes smart, disciplined, and empathetic individuals who can understand what job the products need to get done and imagine innovative ways. Thus we designed the hiring process to help us identify those people." ] ]
+                                            , column []
+                                                [ paragraph Styles.paragraph
+                                                    [ text "We foster a culture of respect, dialogue and growth where our team members can engage in a continuous conversation about product, engineering, and learning. "
+                                                    ]
+                                                ]
+                                            ]
+                                        , row [ width fill ]
+                                            [ image [ centerX ]
+                                                { src = "/static/images/careers-hiring-process.svg"
+                                                , description = "Flint"
+                                                }
+                                            ]
+                                        ]
+                                    ]
+                                , row (heading ++ [ centerX ])
+                                    [ text "Jobs"
+                                    ]
+                                ]
+                            ]
+                        , row
+                            [ width fill, centerX, height fill ]
+                            (views.phone device)
+                        , column [ width fill, centerX ] (footer device)
+                        ]
+                    ]
+                ]
+
+            _ ->
+                [ row [ width fill, Background.color colors.orange2, paddingXY 100 0 ] (header device)
+                , row
+                    [ width fill, inFront <| applicationForm device model, height fill ]
+                    [ column [ width fill, height fill ]
+                        [ row [ width fill, Background.color colors.orange2, padding 50 ]
+                            [ column [ width fill, spacing 30 ]
+                                [ paragraph
+                                    [ width <| maximum 1500 fill
+                                    , centerX
+                                    , centerY
+                                    , Font.center
+                                    , height (minimum 150 shrink)
+                                    , Font.color colors.white3
+                                    , Styles.headFont
+                                    , Font.size 70
+                                    ]
+                                    [ text "Work at Flint" ]
+                                ]
+                            ]
+                        , row
+                            [ width fill
+                            , paddingXY 100 50
+                            , width <| maximum 1500 fill
+                            , centerX
+                            ]
+                            [ column [ width fill, spacing 60 ]
+                                [ row [ width fill ]
+                                    [ column
+                                        [ width fill
+                                        , centerX
+                                        , height (minimum 300 shrink)
+                                        , spacing 30
+                                        ]
+                                        [ paragraph [ Styles.headFont, Font.size 30 ] [ text "We work with the very best." ]
+                                        , row [ width fill ]
+                                            [ column [ width fill, alignTop ] [ paragraph Styles.paragraph [ text "At Flint, we're committed to hiring the best people to build our teams. Building great products takes smart, disciplined, and empathetic individuals who can understand what job the products need to get done and imagine innovative ways. Thus we designed the hiring process to help us identify those people." ] ]
+                                            , column [ width fill, alignTop ]
+                                                [ paragraph Styles.paragraph
+                                                    [ text "We foster a culture of respect, dialogue and growth where our team members can engage in a continuous conversation about product, engineering, and learning. "
+                                                    ]
+                                                ]
+                                            ]
+                                        , row [ width fill ]
+                                            [ image [ centerX ]
+                                                { src = "/static/images/careers-hiring-process.svg"
+                                                , description = "Flint"
+                                                }
+                                            ]
+                                        ]
+                                    ]
+                                , row (heading ++ [ centerX ])
+                                    [ text "Jobs"
+                                    ]
+                                ]
+                            ]
+                        , row
+                            [ width <| maximum 1500 fill, centerX, paddingXY 100 0, height fill ]
+                            (views.desktop device)
+                        , row [ width <| maximum 1500 fill, centerX, paddingXY 100 0 ] (footer device)
+                        ]
+                    ]
+                ]
+        )
+
+
+phoneView : Device -> Job -> Model -> Element Msg
 phoneView _ job model =
     row [ width fill ]
         [ column [ alignLeft, spacingXY 0 10, width fill, paddingXY 10 0 ]
@@ -63,9 +257,9 @@ phoneView _ job model =
                 ]
             , row [ Font.size 15, width fill ]
                 [ column [ spacingXY 0 10 ]
-                    [ row [ alignLeft ] [ text job.location ]
-                    , row [ alignLeft ] [ text job.equity ]
-                    , row [ alignLeft ] [ text job.experience ]
+                    [ row (Styles.paragraph ++ [ Font.size 15 ]) [ text job.location ]
+                    , row (Styles.paragraph ++ [ Font.size 15 ]) [ text job.equity ]
+                    , row (Styles.paragraph ++ [ Font.size 15 ]) [ text job.experience ]
                     ]
                 ]
             ]
@@ -83,29 +277,22 @@ phoneView _ job model =
                 , Background.color colors.orange1
                 , mouseOver [ Background.color colors.orange2 ]
                 ]
-                { onPress = Just (LoadCurrentPage { model | applicationStatus = NewSubmission, phoneView = False, applicationTitle = job.title })
+                { onPress = Just (UpdateAndScrollToTop { model | applicationStatus = NewSubmission, phoneView = False, applicationTitle = job.title })
                 , label = text "Apply Now"
                 }
             ]
         ]
 
 
-phoneLayout : DeviceClass -> Model -> List (Element Msg)
-phoneLayout device model =
+phoneLayout : { jobs : JobsStatus, device : Device, gitVersion : String, applicant : Jobs.Types.Applicant, error : String, submissionMessage : SubmissionMessage, applicationTitle : String, phoneView : Bool, applicationStatus : ApplicationStatus } -> Device -> List (Element Msg)
+phoneLayout model device =
     [ column
         [ width fill
+        , height fill
         , paddingXY 30 0
         , spacingXY 0 20
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 50 ]
-            [ column [ centerX, width fill ]
-                [ row
-                    (heading ++ [ centerX ])
-                    [ text "Careers" ]
-                ]
-            ]
-        , column [ width fill, height fill, spacingXY 30 60, width <| maximum 500 fill, centerX ]
+        [ column [ width fill, height fill, spacingXY 30 60, width <| maximum 500 fill, centerX ]
             (if model.phoneView then
                 case model.jobs of
                     Results jobs ->
@@ -118,35 +305,26 @@ phoneLayout device model =
                                 )
 
                     Loading ->
-                        [ row [] [ text "Loading ..." ] ]
+                        [ row [] [ text "Loading..." ] ]
 
                     NoJobs ->
-                        [ row [] [ text "No Jobs" ] ]
+                        [ row [] [ text "We filled all our positions, stay tuned for more..." ] ]
 
              else
                 [ applicationForm device model ]
             )
-        , column [ width fill ] (footer device)
         ]
     ]
 
 
-tabletLayout : DeviceClass -> Model -> List (Element Msg)
-tabletLayout device model =
+tabletLayout : Model -> Device -> List (Element Msg)
+tabletLayout model _ =
     [ column
         [ width fill
+        , height fill
         , paddingXY 50 0
-        , inFront <| applicationForm device model
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, height fill, paddingXY 0 50 ]
-            [ column [ centerX, width fill, width (minimum 600 shrink) ]
-                [ row
-                    (heading ++ [ centerX ])
-                    [ text "Careers" ]
-                ]
-            ]
-        , column [ width fill, height fill, spacingXY 30 40, centerX ]
+        [ column [ width fill, height fill, spacingXY 30 40, centerX ]
             (case model.jobs of
                 Results jobs ->
                     jobs
@@ -154,12 +332,11 @@ tabletLayout device model =
                             (\job -> column [ width fill, centerX ] [ jobView job model ])
 
                 Loading ->
-                    [ row [] [ text "Loading ..." ] ]
+                    [ row [] [ text "Loading..." ] ]
 
                 NoJobs ->
-                    [ row [] [ text "No Jobs" ] ]
+                    [ row [] [ text "We filled all our positions, stay tuned for more..." ] ]
             )
-        , row [ width fill ] (footer device)
         ]
     ]
 
@@ -175,9 +352,9 @@ jobView job model =
                     }
                 ]
             , row [ Font.size 15, spacingXY 30 0 ]
-                [ column [] [ text job.location ]
-                , column [] [ text job.equity ]
-                , column [] [ text job.experience ]
+                [ column (Styles.paragraph ++ [ Font.size 16 ]) [ text job.location ]
+                , column (Styles.paragraph ++ [ Font.size 16 ]) [ text job.equity ]
+                , column (Styles.paragraph ++ [ Font.size 16 ]) [ text job.experience ]
                 ]
             ]
         , column
@@ -200,42 +377,33 @@ jobView job model =
         ]
 
 
-desktopLayout : DeviceClass -> Model -> List (Element Msg)
-desktopLayout device model =
+desktopLayout : Model -> Device -> List (Element Msg)
+desktopLayout model _ =
     [ column
         [ width fill
         , height fill
-        , paddingXY 100 0
         , centerX
-        , inFront <| applicationForm device model
         ]
-        [ row [ width fill ] (header device)
-        , row [ width fill, paddingEach { left = 0, right = 0, top = 100, bottom = 50 }, spacing 10 ]
-            [ column [ width fill, width (minimum 600 shrink), width fill, centerX ]
-                [ paragraph
-                    heading
-                    [ text "Careers" ]
-                ]
+        [ row [ height fill, width fill ]
+            [ column [ width fill, height fill, centerX, spacingXY 20 40, paddingEach { top = 5, bottom = 40, left = 0, right = 0 } ]
+                (case model.jobs of
+                    Results jobs ->
+                        jobs
+                            |> List.map
+                                (\job -> column [ width fill, centerX, height fill ] [ jobView job model ])
+
+                    Loading ->
+                        [ row [] [ text "Loading..." ] ]
+
+                    NoJobs ->
+                        [ row [] [ text "We filled all our positions, stay tuned for more..." ] ]
+                )
             ]
-        , column [ width fill, height fill, centerX, spacingXY 20 40, paddingEach { top = 5, bottom = 40, left = 0, right = 0 } ]
-            (case model.jobs of
-                Results jobs ->
-                    jobs
-                        |> List.map
-                            (\job -> column [ width fill, centerX ] [ jobView job model ])
-
-                Loading ->
-                    [ row [] [ text "Loading ..." ] ]
-
-                NoJobs ->
-                    [ row [] [ text "No Jobs" ] ]
-            )
-        , row [ width fill, height fill ] (footer device)
         ]
     ]
 
 
-applicationForm : DeviceClass -> Model -> Element Msg
+applicationForm : Device -> Model -> Element Msg
 applicationForm device model =
     case model.applicationStatus of
         NewSubmission ->
@@ -294,7 +462,7 @@ applicationForm device model =
                     , paragraph [ Font.center, centerX, centerY, Font.size 17, padding 10 ]
                         [ case model.submissionMessage of
                             OK ->
-                                text "Thank you for applying. Please check your email for the confirmation."
+                                text "Thank you for applying."
 
                             Error ->
                                 text "An error occurred. Please try applying again. If the problem persists, please email us your application at careers@withflint.com"
@@ -355,7 +523,7 @@ closeButton model =
         }
 
 
-newSubmissionForm : DeviceClass -> Model -> Element Msg
+newSubmissionForm : Device -> Model -> Element Msg
 newSubmissionForm device model =
     form device
         [ column [ width fill, spacingXY 0 20 ]
@@ -366,7 +534,7 @@ newSubmissionForm device model =
                             [ Input.button []
                                 { onPress =
                                     Just
-                                        (LoadCurrentPage
+                                        (UpdateAndScrollToTop
                                             { model
                                                 | applicationStatus = NotInitialized
                                                 , error = ""
@@ -435,7 +603,7 @@ newSubmissionForm device model =
                     { onChange =
                         \fname ->
                             let
-                                applicant : Careers.Types.Applicant
+                                applicant : Jobs.Types.Applicant
                                 applicant =
                                     model.applicant
                             in
@@ -472,7 +640,7 @@ newSubmissionForm device model =
                     { onChange =
                         \lname ->
                             let
-                                applicant : Careers.Types.Applicant
+                                applicant : Jobs.Types.Applicant
                                 applicant =
                                     model.applicant
                             in
@@ -509,7 +677,7 @@ newSubmissionForm device model =
                     { onChange =
                         \email ->
                             let
-                                applicant : Careers.Types.Applicant
+                                applicant : Jobs.Types.Applicant
                                 applicant =
                                     model.applicant
                             in
@@ -550,7 +718,7 @@ newSubmissionForm device model =
                     { onChange =
                         \phone ->
                             let
-                                applicant : Careers.Types.Applicant
+                                applicant : Jobs.Types.Applicant
                                 applicant =
                                     model.applicant
                             in
@@ -609,7 +777,6 @@ newSubmissionForm device model =
             , row [ width fill, Font.size 15 ]
                 [ Input.multiline
                     [ height <| px 200
-                    , scrollbarY
                     , Border.width 1
                     , padding 7
                     , focused [ Border.color colors.orange1 ]
@@ -623,7 +790,7 @@ newSubmissionForm device model =
                     { onChange =
                         \reason ->
                             let
-                                applicant : Careers.Types.Applicant
+                                applicant : Jobs.Types.Applicant
                                 applicant =
                                     model.applicant
                             in
@@ -714,3 +881,8 @@ validateEmail email =
 emailValidationString : String
 emailValidationString =
     "(?:[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*|'(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
+
+
+fillxy : List (Element.Attribute msg)
+fillxy =
+    [ height fill, width fill ]

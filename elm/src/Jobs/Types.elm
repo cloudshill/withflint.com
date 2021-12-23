@@ -1,7 +1,7 @@
-module Careers.Types exposing (Applicant, ApplicationStatus(..), Field(..), Job, JobsStatus(..), Model, Msg(..), SubmissionMessage(..))
+module Jobs.Types exposing (Applicant, ApplicationStatus(..), Field(..), Job, JobsStatus(..), Model, Msg(..), SubmissionMessage(..))
 
 import Browser.Dom exposing (Viewport)
-import Element exposing (Device)
+import Device exposing (Device)
 import File exposing (File)
 import Http
 
@@ -25,10 +25,11 @@ type Msg
     | ReceiveYCJobsData (Result Http.Error String)
     | SendApplicantData (Result Http.Error String)
     | Update Model
-    | Resume File
+    | UpdateAndScrollToTop Model
     | UploadResume
+    | Resume File
     | Submit
-    | LoadCurrentPage Model
+    | NoOp
 
 
 type JobsStatus
