@@ -23,13 +23,14 @@ type ArticleState
 
 type alias Article =
     { author : String
-    , title : String
+    , bio : String
     , link : String
-    , date : String
-    , body : String
-    , image : String
-    , sub : String
+    , avatar : String
     , slug : String
+    , date : String
+    , title : String
+    , sub : String
+    , body : String
     }
 
 

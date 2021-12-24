@@ -92,7 +92,7 @@ font =
 headFont : Element.Attribute msg
 headFont =
     Font.family
-        [ Font.typeface "Open Sans"
+        [ Font.typeface "Roboto"
         , Font.sansSerif
         ]
 
@@ -191,4 +191,4 @@ form device =
 
 link : List (Element.Attribute msg)
 link =
-    [ Font.underline, mouseOver [ Font.color colors.orange1 ], Font.bold, Font.color colors.black1 ]
+    [ Font.underline, mouseOver [ Font.color colors.orange1 ], Font.regular, Font.color colors.black1 ]

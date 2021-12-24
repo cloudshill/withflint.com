@@ -37,6 +37,7 @@ topMenu =
     [ ( Home, "Home" )
     , ( FAQ, "FAQ" )
     , ( Contact, "Contact" )
+    , ( Blog "", "Blog" )
     , ( Jobs, "Jobs" )
     ]
 

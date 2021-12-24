@@ -149,7 +149,7 @@ layout views device model =
                                         ]
                                         [ paragraph [ Styles.headFont, Font.size 24 ] [ text "We work with the very best." ]
                                         , paragraph Styles.paragraph [ text "At Flint, we're committed to hiring the best people to build our teams. Building great products takes smart, disciplined, and empathetic individuals who can understand what job the products need to get done and imagine innovative ways. Thus we designed the hiring process to help us identify those people." ]
-                                        , paragraph Styles.paragraph [ text "We foster a culture of respect, dialogue and growth where our team members can engage in a continuous conversation about product, engineering, and learning. " ]
+                                        , paragraph Styles.paragraph [ text "We foster a culture of respect, dialogue and growth where our team members can engage in a continuous conversation about product, engineering, and learning. ", link Styles.link { url = toPath (Blog "culture"), label = text "Read about our values and culture." } ]
                                         , newTabLink [ width fill ]
                                             { url = "/static/images/careers-hiring-process.svg"
                                             , label =
@@ -213,6 +213,7 @@ layout views device model =
                                             , column [ width fill, alignTop ]
                                                 [ paragraph Styles.paragraph
                                                     [ text "We foster a culture of respect, dialogue and growth where our team members can engage in a continuous conversation about product, engineering, and learning. "
+                                                    , link Styles.link { url = toPath (Blog "culture"), label = text "Read about our values and culture." }
                                                     ]
                                                 ]
                                             ]

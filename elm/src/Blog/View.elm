@@ -17,6 +17,7 @@ import Element
         , mouseOver
         , newTabLink
         , padding
+        , paddingEach
         , paddingXY
         , paragraph
         , px
@@ -38,9 +39,7 @@ import Markdown.Block as Block exposing (ListItem(..), Task(..))
 import Markdown.Html
 import Markdown.Parser
 import Markdown.Renderer
-import Maybe exposing (withDefault)
 import Router.Routes as R
-import String exposing (indexes, slice)
 import Styles exposing (colors)
 
 
@@ -65,58 +64,90 @@ blogView article =
             ]
 
         List articles ->
-            [ articles |> List.map (articleSummaryView >> row [ width fill, centerX, alignTop ]) |> column [ width fill, centerX, alignTop ] ]
+            [ articles
+                |> List.indexedMap (hr articleSummaryView)
+                |> List.map (row [ width fill, centerX, alignTop ])
+                |> column [ width fill, centerX, alignTop, width <| maximum 850 fill, paddingXY 80 40, spacing 80 ]
+            ]
 
         Loaded article_ ->
             article_ |> articleView
 
 
-articleSummaryView : Article -> List (Element Msg)
-articleSummaryView article =
-    [ case markdownView (article.body |> slice 0 (article.body |> indexes "." |> List.take 3 |> List.maximum |> withDefault 500 |> plusOne)) of
-        Ok rendered ->
-            link [ width fill, centerX ]
-                { url = R.toPath <| R.Blog article.slug
-                , label =
-                    column
-                        [ padding 80, width <| maximum 850 fill, spacing 30, centerX ]
-                        [ paragraph [ Styles.headFont, Font.size 26, Font.underline, mouseOver [ Font.color colors.orange2 ] ] [ text article.title ]
-                        , row
-                            [ spacing 5
-                            , alignTop
-                            , width (fill |> maximum 100)
-                            , Font.size 14
-                            ]
-                            [ image [ Border.rounded 25, centerY, width (px 28), height (px 28) ] { src = article.image, description = article.author }
-                            , text article.author
-                            , el [] (text "·")
-                            , el [] (text article.sub)
-                            , el [] (text "·")
-                            , el [ Font.color colors.gray2 ] (text article.date)
-                            ]
-                        , column
-                            (Styles.paragraph
-                                ++ [ centerX
-                                   , Font.size 20
-                                   , spacing 40
-                                   ]
-                            )
-                            rendered
-                        ]
-                }
+hr : (c -> List (Element msg)) -> number -> c -> List (Element msg)
+hr f index article =
+    [ column [ width fill ]
+        ((if index == 0 then
+            []
 
-        Err _ ->
-            oops
+          else
+            [ el
+                [ width fill
+                , centerX
+                , Border.widthEach
+                    { bottom = 0
+                    , left = 0
+                    , right = 0
+                    , top = 1
+                    }
+                , paddingEach
+                    { bottom = 15
+                    , left = 0
+                    , right = 0
+                    , top = 0
+                    }
+                , Border.color
+                    colors.white1
+                ]
+                (text "")
+            ]
+         )
+            ++ f article
+        )
+    ]
+
+
+articleSummaryView : Article -> List (Element msg)
+articleSummaryView article =
+    [ link [ width fill, centerX ]
+        { url = R.toPath <| R.Blog article.slug
+        , label =
+            column
+                [ spacing 30, centerX ]
+                [ paragraph [ Styles.headFont, Font.size 40, Font.bold, mouseOver [ Font.color colors.orange2 ] ] [ text article.title ]
+                , row
+                    [ spacing 5
+                    , alignTop
+                    , width (fill |> maximum 100)
+                    , Font.size 14
+                    ]
+                    [ image [ Border.rounded 25, centerY, width (px 28), height (px 28) ] { src = article.avatar, description = article.author }
+                    , text article.author
+                    , el [] (text "·")
+                    , el [] (text article.bio)
+                    , el [] (text "·")
+                    , el [ Font.color colors.gray2 ] (text article.date)
+                    ]
+                , column
+                    (Styles.paragraph
+                        ++ [ centerX
+                           , Font.size 20
+                           , spacing 40
+                           ]
+                    )
+                    [ paragraph [ width fill ] [ text article.sub ] ]
+                ]
+        }
     ]
 
 
 articleView : Article -> List (Element msg)
-articleView article_ =
-    [ case markdownView article_.body of
+articleView article =
+    [ case markdownView article.body of
         Ok rendered ->
             column
                 [ padding 80, width <| maximum 850 fill, spacing 40, centerX ]
-                [ paragraph [ Styles.headFont, Font.size 46 ] [ text article_.title ]
+                [ paragraph [ Styles.headFont, Font.bold, Font.size 46 ] [ text article.title ]
                 , row
                     [ spacing 5
                     , alignTop
@@ -125,24 +156,24 @@ articleView article_ =
                     ]
                     [ newTabLink
                         []
-                        { url = article_.link
-                        , label = image [ Border.rounded 25, centerY, width (px 28), height (px 28) ] { src = article_.image, description = article_.author }
+                        { url = article.link
+                        , label = image [ Border.rounded 25, centerY, width (px 28), height (px 28) ] { src = article.avatar, description = article.author }
                         }
                     , newTabLink
                         [ Font.underline ]
-                        { url = article_.link
-                        , label = text article_.author
+                        { url = article.link
+                        , label = text article.author
                         }
                     , el [] (text "·")
-                    , el [] (text article_.sub)
+                    , el [] (text article.bio)
                     , el [] (text "·")
-                    , el [ Font.color colors.gray2 ] (text article_.date)
+                    , el [ Font.color colors.gray2 ] (text article.date)
                     ]
                 , column
                     (Styles.paragraph
                         ++ [ centerX
                            , Font.size 20
-                           , spacing 40
+                           , spacing 20
                            ]
                     )
                     rendered
@@ -165,7 +196,17 @@ blogPhoneView article =
             ]
 
         List articles ->
-            [ articles |> List.map (articlePhoneSummaryView >> row [ width fill, centerX, alignTop ]) |> column [ width fill, centerX, alignTop ] ]
+            [ articles
+                |> List.indexedMap (hr articlePhoneSummaryView)
+                |> List.map (row [ width fill, centerX, alignTop ])
+                |> column
+                    [ width fill
+                    , centerX
+                    , alignTop
+                    , paddingXY 20 20
+                    , spacing 10
+                    ]
+            ]
 
         Loaded article_ ->
             article_ |> articlePhoneView
@@ -173,50 +214,44 @@ blogPhoneView article =
 
 articlePhoneSummaryView : Article -> List (Element Msg)
 articlePhoneSummaryView article =
-    [ case markdownView (article.body |> slice 0 (article.body |> indexes "." |> List.minimum |> withDefault 300 |> plusOne)) of
-        Ok rendered ->
-            let
-                go : Element msg -> Element msg
-                go ele =
-                    link [ width fill, mouseOver [ Font.color colors.orange2 ] ]
-                        { url = R.toPath <| R.Blog article.slug
-                        , label = ele
-                        }
-            in
-            column
-                [ paddingXY 20 20
+    let
+        go : Element msg -> Element msg
+        go ele =
+            link [ width fill, mouseOver [ Font.color colors.orange2 ] ]
+                { url = R.toPath <| R.Blog article.slug
+                , label = ele
+                }
+    in
+    [ column
+        [ width fill
+        , spacing 30
+        , centerX
+        ]
+        [ paragraph [ Styles.headFont, Font.size 24, Font.bold, width fill ] [ go <| text article.title ]
+        , go <|
+            row
+                [ spacing 5
+                , alignTop
+                , Font.size 14
                 , width fill
-                , spacing 30
-                , centerX
                 ]
-                [ paragraph [ Styles.headFont, Font.size 22, Font.underline, width fill ] [ go <| text article.title ]
-                , go <|
-                    row
-                        [ spacing 5
-                        , alignTop
-                        , Font.size 14
-                        , width fill
-                        ]
-                        [ image [ Border.rounded 25, centerY, width (px 28), height (px 28) ] { src = article.image, description = article.author }
-                        , text article.author
-                        , el [] (text "·")
-                        , el [] (text article.sub)
-                        , el [] (text "·")
-                        , el [ Font.color colors.gray2 ] (text article.date)
-                        ]
-                , go <|
-                    textColumn
-                        (Styles.paragraph
-                            ++ [ width fill
-                               , centerX
-                               , Font.size 18
-                               ]
-                        )
-                        rendered
+                [ image [ Border.rounded 25, centerY, width (px 28), height (px 28) ] { src = article.avatar, description = article.author }
+                , text article.author
+                , el [] (text "·")
+                , el [] (text article.bio)
+                , el [] (text "·")
+                , el [ Font.color colors.gray2 ] (text article.date)
                 ]
-
-        Err _ ->
-            oops
+        , go <|
+            textColumn
+                (Styles.paragraph
+                    ++ [ width fill
+                       , centerX
+                       , Font.size 18
+                       ]
+                )
+                [ paragraph [ width fill ] [ text article.sub ] ]
+        ]
     ]
 
 
@@ -229,7 +264,7 @@ articlePhoneView article_ =
                 , width fill
                 , spacing 30
                 ]
-                [ paragraph [ Styles.headFont, Font.size 32 ] [ text article_.title ]
+                [ paragraph [ Styles.headFont, Font.bold, Font.size 32 ] [ text article_.title ]
                 , row
                     [ spacing 5
                     , alignTop
@@ -239,7 +274,7 @@ articlePhoneView article_ =
                     [ newTabLink
                         []
                         { url = article_.link
-                        , label = image [ Border.rounded 25, centerY, width (px 28), height (px 28) ] { src = article_.image, description = article_.author }
+                        , label = image [ Border.rounded 25, centerY, width (px 28), height (px 28) ] { src = article_.avatar, description = article_.author }
                         }
                     , newTabLink
                         [ Font.underline ]
@@ -247,7 +282,7 @@ articlePhoneView article_ =
                         , label = text article_.author
                         }
                     , el [] (text "·")
-                    , el [] (text article_.sub)
+                    , el [] (text article_.bio)
                     , el [] (text "·")
                     , el [ Font.color colors.gray2 ] (text article_.date)
                     ]
@@ -256,6 +291,7 @@ articlePhoneView article_ =
                         ++ [ width fill
                            , centerX
                            , Font.size 18
+                           , spacing 30
                            ]
                     )
                     rendered
@@ -402,13 +438,20 @@ heading { level, rawText, children } =
                 _ ->
                     20
             )
-        , Font.bold
+        , Font.regular
         , Element.Region.heading (Block.headingLevelToInt level)
         , Element.htmlAttribute
             (Html.Attributes.attribute "name" (rawTextToId rawText))
         , Element.htmlAttribute
             (Html.Attributes.id (rawTextToId rawText))
         , Styles.headFont
+        , paddingEach
+            { bottom = 0
+            , left = 0
+            , right = 0
+            , top = 20
+            }
+        , Font.letterSpacing 1
         ]
         children
 
@@ -424,8 +467,3 @@ rawTextToId rawText =
 oops : Element msg
 oops =
     text "Oops! We can't find that."
-
-
-plusOne : number -> number
-plusOne =
-    \a -> a + 1

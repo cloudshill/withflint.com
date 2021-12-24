@@ -43,13 +43,14 @@ module Program =
 
     type Article =
         { Author: String
-          Title: String
+          Bio: String
           Link: String
+          Avatar: String
+          Slug: String
           Date: String
-          Image: String
-          Body: String
+          Title: String
           Sub: String
-          Slug: String }
+          Body: String }
 
     let root =
         Directory.GetParent(Directory.GetCurrentDirectory())
@@ -60,20 +61,22 @@ module Program =
 
     let parseArticle =
         function
-        | (author :: sub :: link :: date :: image :: slug :: _ :: title :: _ :: body) ->
+        | (author :: bio :: link :: avatar :: _ :: slug :: date :: title :: sub :: _ :: body) ->
             Some
                 { Author = author
-                  Title = title
+                  Bio = bio
                   Link = link
+                  Avatar = avatar
+                  Slug = slug
                   Date = date
-                  Image = image
-                  Body = String.concat "\n" <| body
+                  Title = title
                   Sub = sub
-                  Slug = slug }
+                  Body = String.concat "\n" <| body }
         | _ -> None
 
     let articles =
         Directory.GetFiles($"{root}/blog/", "*.md")
+        |> Seq.sortDescending
         |> Seq.toList
         |> List.map (lines >> parseArticle)
         |> List.choose id

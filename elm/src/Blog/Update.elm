@@ -85,13 +85,14 @@ decode : D.Decoder Article
 decode =
     D.succeed Article
         |> andMap (D.field "author" D.string)
-        |> andMap (D.field "title" D.string)
+        |> andMap (D.field "bio" D.string)
         |> andMap (D.field "link" D.string)
-        |> andMap (D.field "date" D.string)
-        |> andMap (D.field "body" D.string)
-        |> andMap (D.field "image" D.string)
-        |> andMap (D.field "sub" D.string)
+        |> andMap (D.field "avatar" D.string)
         |> andMap (D.field "slug" D.string)
+        |> andMap (D.field "date" D.string)
+        |> andMap (D.field "title" D.string)
+        |> andMap (D.field "sub" D.string)
+        |> andMap (D.field "body" D.string)
 
 
 loadArticle : Model -> String -> Model
